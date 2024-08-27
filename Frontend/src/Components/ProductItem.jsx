@@ -4,17 +4,20 @@ import { Link } from "react-router-dom";
 
 const ProductItem = ({ id, name, price, image }) => {
   const { currency } = useContext(ShopContext);
+
   return (
-    <div className="">
-      <Link className="text-gray-600" to={`/Product/${id}`}>
+    <div className="bg-gray-100 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+      <Link to={`/Product/${id}`} className="block text-gray-700">
         <div className="overflow-hidden">
           <img
             src={image[0]}
-            className="hover:scale-110 transition ease-in-out"
-            alt=""
+            className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+            alt={name}
           />
-          <p className="pt-3 pb-1 text-sm">{name}</p>
-          <p className="text-sm font-medium">
+        </div>
+        <div className="p-4">
+          <h3 className="text-lg font-medium mb-1">{name}</h3>
+          <p className="text-gray-500">
             {currency}
             {price}
           </p>
