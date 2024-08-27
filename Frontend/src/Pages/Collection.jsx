@@ -15,6 +15,7 @@ const Collection = () => {
     if (category.includes(e.target.value)) {
       SetCategory(category.filter((item) => item !== e.target.value));
     }
+
     if (!category.includes(e.target.value)) {
       SetCategory([...category, e.target.value]);
     }
