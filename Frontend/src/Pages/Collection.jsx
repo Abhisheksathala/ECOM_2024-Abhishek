@@ -10,38 +10,21 @@ const Collection = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [category, SetCategory] = useState([]);
   const [SUBcategory, SetSUBCategory] = useState([]);
+  const [sortType, setSortType] = useState([]);
 
   const toogleCategory = (e) => {
     if (category.includes(e.target.value)) {
       SetCategory(category.filter((item) => item !== e.target.value));
-    }
-
-    if (!category.includes(e.target.value)) {
+    } else {
       SetCategory([...category, e.target.value]);
-    }
-
-    if (SUBcategory.includes(e.target.value)) {
-      SetSUBCategory(SUBcategory.filter((item) => item !== e.target.value));
-    }
-    if (!SUBcategory.includes(e.target.value)) {
-      SetSUBCategory([...SUBcategory, e.target.value]);
     }
   };
 
   const toogleeSubcategory = (e) => {
     if (SUBcategory.includes(e.target.value)) {
       SetSUBCategory(SUBcategory.filter((item) => item !== e.target.value));
-    }
-    if (!SUBcategory.includes(e.target.value)) {
+    } else {
       SetSUBCategory([...SUBcategory, e.target.value]);
-    }
-
-    if (category.includes(e.target.value)) {
-      SetCategory(category.filter((item) => item !== e.target.value));
-    }
-
-    if (!category.includes(e.target.value)) {
-      SetCategory([...category, e.target.value]);
     }
   };
 
@@ -61,6 +44,18 @@ const Collection = () => {
     setFilteredProducts(filtered);
   };
 
+  const sortProduct = () => {
+    if (sortType === "low-high") {
+      setFilteredProducts(filteredProducts.sort((a, b) => a.price - b.price));
+    } else if (sortType === "high-low") {
+      setFilteredProducts(filteredProducts.sort((a, b) => b.price - a.price));
+    }
+  };
+
+  useEffect(() => {
+    sortProduct();
+  }, []);
+
   useEffect(() => {
     setFilteredProducts(products);
   }, [products]);
@@ -68,6 +63,10 @@ const Collection = () => {
   useEffect(() => {
     applyFilter();
   }, [category, SUBcategory]);
+
+  useEffect(() => {
+    sortProduct();
+  }, [sortType]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-0 pt-10 border-t">
@@ -156,9 +155,30 @@ const Collection = () => {
           />
           {/* sort */}
           <select className="border border-gray-300 text-sm px-2">
-            <option value="relevant">relevant</option>
-            <option value="low-high">low-high</option>
-            <option value="high-low">high-low</option>
+            <option
+              value="relevant"
+              onChange={(e) => {
+                setSortType(e.target.value);
+              }}
+            >
+              relevant
+            </option>
+            <option
+              value="low-high"
+              onChange={(e) => {
+                setSortType(e.target.value);
+              }}
+            >
+              low-high
+            </option>
+            <option
+              value="high-low"
+              onChange={(e) => {
+                setSortType(e.target.value);
+              }}
+            >
+              high-low
+            </option>
           </select>
         </div>
         {/* map product */}
