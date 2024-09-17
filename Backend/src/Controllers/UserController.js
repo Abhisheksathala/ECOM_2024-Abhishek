@@ -3,10 +3,16 @@ import jws from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import Validator from "validator";
 
-const CreateToken = (user) => {
-  return jws.sign({ id: User._id }, process.env.SECRET_KEY, {
-    expiresIn: "30d",
-  });
+const CreateToken = (id) => {
+  return jws.sign(
+    {
+      id,
+    },
+    process.env.SECRET_KEY,
+    {
+      expiresIn: "30d",
+    }
+  );
 };
 
 const RegisterUser = async (req, res) => {
@@ -24,22 +30,30 @@ const RegisterUser = async (req, res) => {
       return res.status(400).json({ success: false, message: "Invalid Email" });
     }
 
-    if (password.lenght < 8) {
+    if (password.length < 8) {
       return res
         .status(400)
         .json({ success: false, message: "Password must be at least 8" });
     }
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
-    const NewUser = await UserModel{
+    const NewUser = new UserModel({
       name: name,
       email: email,
       password: hashPassword,
-    }
+    });
+    const user = await NewUser.save();
 
-    await NewUser.save();
-    
-  } catch (error) {}
+    const token = CreateToken(user._id);
+
+    res.status(200).json({
+      success: true,
+      token: token,
+      message: "User created successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
 };
 const loginUser = async (req, res) => {};
 const AdminLogin = async (req, res) => {};
