@@ -17,3 +17,7 @@ html {
 
 @media (max-width: 640px) {
 }
+
+::-webkit-scrollbar {
+  display: none;
+}

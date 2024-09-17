@@ -7,10 +7,10 @@ import ShopContextProvider from "./Context/ShopContext";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <ShopContextProvider>
-      <BrowserRouter>
+    <BrowserRouter>
+      <ShopContextProvider>
         <App />
-      </BrowserRouter>
-    </ShopContextProvider>
+      </ShopContextProvider>
+    </BrowserRouter>
   </StrictMode>
 );

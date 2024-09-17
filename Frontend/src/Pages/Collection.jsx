@@ -5,6 +5,7 @@ import Title from "./../Components/Title";
 import ProductItem from "./../Components/ProductItem";
 
 const Collection = () => {
+  const { search, showSearch } = useContext(ShopContext);
   const { products } = useContext(ShopContext);
   const [showFilter, setShowFilter] = useState(true);
   const [filteredProducts, setFilteredProducts] = useState([]);
@@ -31,6 +32,12 @@ const Collection = () => {
   const applyFilter = () => {
     let filtered = products;
 
+    if (showSearch && search) {
+      filtered = filtered.filter((item) =>
+        item.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
     if (category.length > 0) {
       filtered = filtered.filter((item) => category.includes(item.category));
     }
@@ -46,15 +53,19 @@ const Collection = () => {
 
   const sortProduct = () => {
     if (sortType === "low-high") {
-      setFilteredProducts(filteredProducts.sort((a, b) => a.price - b.price));
+      setFilteredProducts(
+        [...filteredProducts].sort((a, b) => a.price - b.price)
+      );
     } else if (sortType === "high-low") {
-      setFilteredProducts(filteredProducts.sort((a, b) => b.price - a.price));
+      setFilteredProducts(
+        [...filteredProducts].sort((a, b) => b.price - a.price)
+      );
     }
   };
 
   useEffect(() => {
     sortProduct();
-  }, []);
+  }, [sortType]);
 
   useEffect(() => {
     setFilteredProducts(products);
@@ -62,11 +73,11 @@ const Collection = () => {
 
   useEffect(() => {
     applyFilter();
-  }, [category, SUBcategory]);
+  }, [category, SUBcategory, search, showSearch]);
 
   useEffect(() => {
     sortProduct();
-  }, [sortType]);
+  }, [sortType, filteredProducts]);
 
   return (
     <div className="flex flex-col sm:flex-row gap-1 sm:gap-0 pt-10 border-t">
@@ -154,31 +165,13 @@ const Collection = () => {
             text2={products.length > 0 ? products.length : 0}
           />
           {/* sort */}
-          <select className="border border-gray-300 text-sm px-2">
-            <option
-              value="relevant"
-              onChange={(e) => {
-                setSortType(e.target.value);
-              }}
-            >
-              relevant
-            </option>
-            <option
-              value="low-high"
-              onChange={(e) => {
-                setSortType(e.target.value);
-              }}
-            >
-              low-high
-            </option>
-            <option
-              value="high-low"
-              onChange={(e) => {
-                setSortType(e.target.value);
-              }}
-            >
-              high-low
-            </option>
+          <select
+            className="border border-gray-300 text-sm px-2"
+            onChange={(e) => setSortType(e.target.value)}
+          >
+            <option value="relevant">relevant</option>
+            <option value="low-high">low-high</option>
+            <option value="high-low">high-low</option>
           </select>
         </div>
         {/* map product */}
