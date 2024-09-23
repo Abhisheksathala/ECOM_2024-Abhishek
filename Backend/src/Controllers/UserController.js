@@ -92,7 +92,8 @@ const AdminLogin = async (req, res) => {
       email === process.env.ADMIN_EMAIL &&
       password === process.env.ADMIN_PASSWORD
     ) {
-      const token = CreateToken(email);
+      const token = CreateToken(email, password);
+      console.log("admin loged");
 
       res.status(200).json({
         success: true,
