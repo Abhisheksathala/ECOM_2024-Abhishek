@@ -10,22 +10,34 @@ import ProductRouter from "./src/Routes/ProductRouter.js";
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+// Middlewares
 app.use(express.json());
 app.use(cors());
 
-// api end points
+// Initialize Cloudinary before starting the server
+connectCloudinary();
+
+// API Endpoints
 app.use("/api/user", UserRouter);
 app.use("/api/product", ProductRouter);
 
+// Root route
+app.get("/", (req, res) => {
+  res.send("Hello World! API is working");
+});
+
+// Fallback route for unmatched URLs
+app.use((req, res) => {
+  res.status(404).json({ message: "Route not found" });
+});
+
+// Start the server after connecting to the database
 INDEXdb()
   .then(() => {
     app.listen(PORT, () => {
-      console.log(`Listening on port ${PORT}`);
+      console.log(`Server running on port ${PORT}`);
     });
-
-    app.get("/", (req, res) => {
-      res.send("Hello World!  api is working ");
-    });
-    connectCloudinary();
   })
-  .catch((err) => console.log("MONGO DB CONNECTION FAILED", err));
+  .catch((err) => {
+    console.log("MONGO DB CONNECTION FAILED", err);
+  });

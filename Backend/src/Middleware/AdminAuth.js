@@ -2,7 +2,6 @@ import jwt from "jsonwebtoken";
 
 const adminAuth = async (req, res, next) => {
   try {
-    // Correct token extraction
     const { token } = req.headers;
 
     if (!token) {
@@ -11,20 +10,17 @@ const adminAuth = async (req, res, next) => {
         .json({ success: false, message: "Token not found" });
     }
 
-    // Correct token verification
+    // Verify the token
     const token_decoded = jwt.verify(token, process.env.SECRET_KEY);
 
-    // Correct admin check
-    if (
-      token_decoded !==
-      process.env.ADMIN_EMAIL + process.env.ADMIN_PASSWORD
-    ) {
+    // Check if the decoded token contains admin email
+    if (token_decoded.email !== process.env.ADMIN_EMAIL) {
       return res
         .status(403)
         .json({ success: false, message: "Unauthorized access" });
     }
 
-    // Proceed to next middleware
+    // Proceed to next middleware if the token is valid
     next();
   } catch (error) {
     console.log(error);

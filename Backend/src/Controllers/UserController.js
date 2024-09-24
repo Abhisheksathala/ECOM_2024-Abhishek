@@ -3,11 +3,9 @@ import jws from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import Validator from "validator";
 
-const CreateToken = (id) => {
+const CreateToken = (payload) => {
   return jws.sign(
-    {
-      id,
-    },
+    payload, // Use the payload object directly (either {id} for users or {email} for admin)
     process.env.SECRET_KEY,
     {
       expiresIn: "30d",
@@ -88,20 +86,25 @@ const loginUser = async (req, res) => {
 const AdminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
+
+    // Check if credentials match the stored admin credentials
     if (
       email === process.env.ADMIN_EMAIL &&
       password === process.env.ADMIN_PASSWORD
     ) {
-      const token = CreateToken(email, password);
-      console.log("admin loged");
+      const token = CreateToken({ email }); // Only pass the email to the token payload
 
-      res.status(200).json({
+      console.log("admin logged in");
+
+      return res.status(200).json({
         success: true,
         token,
         message: "Login successfully",
       });
     } else {
-      res.status(400).json({ success: false, message: "Invalid Credentials" });
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid Credentials" });
     }
   } catch (error) {
     console.log(error);

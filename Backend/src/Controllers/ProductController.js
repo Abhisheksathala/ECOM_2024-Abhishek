@@ -1,6 +1,7 @@
 import ProductModel from "../model/ProductModel.js";
 import { v2 as cloudinary } from "cloudinary";
 
+// AddProduct Controller
 const AddProduct = async (req, res) => {
   try {
     const {
@@ -19,51 +20,31 @@ const AddProduct = async (req, res) => {
     }
 
     const image1 = req.files.image1 && req.files.image1[0];
+
     const image2 = req.files.image2 && req.files.image2[0];
+
     const image3 = req.files.image3 && req.files.image3[0];
+
     const image4 = req.files.image4 && req.files.image4[0];
 
     const images = [image1, image2, image3, image4].filter(
-      (item) => item !== undefined
+      (item) => item !== undefine
     );
 
+    // Upload images to Cloudinary
     let imageURL = await Promise.all(
       images.map(async (item) => {
-        let result = await cloudinary.uploader.upload(item.path, {
-          resource_type: "image",
-        });
+        const result = await cloudinary.uploader(
+          upload(item.path, {
+            resource_type: "image",
+          })
+        );
+
         return result.secure_url;
       })
     );
 
-    if (!name) {
-      return res.status(400).json({ message: "Name is required" });
-    }
-
-    if (!description) {
-      return res.status(400).json({ message: "Description is required" });
-    }
-
-    if (!price) {
-      return res.status(400).json({ message: "Price is required" });
-    }
-
-    if (!category) {
-      return res.status(400).json({ message: "Category is required" });
-    }
-
-    if (!subCategory) {
-      return res.status(400).json({ message: "SubCategory is required" });
-    }
-
-    if (!sizes) {
-      return res.status(400).json({ message: "Sizes is required" });
-    }
-
-    if (!bestseller) {
-      return res.status(400).json({ message: "Bestseller is required" });
-    }
-
+    // Proceed with saving the product
     const NewProduct = new ProductModel({
       name,
       description,
@@ -75,9 +56,18 @@ const AddProduct = async (req, res) => {
       image: imageURL,
       date: Date.now(),
     });
-    console.log(NewProduct);
 
     await NewProduct.save();
+    console.log(
+      name,
+      description,
+      price,
+      category,
+      subCategory,
+      sizes,
+      bestseller
+    );
+    console.log(imageURL);
     res.status(201).json({ success: true, message: "Product added" });
   } catch (error) {
     console.log(error);
