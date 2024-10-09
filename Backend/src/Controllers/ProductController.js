@@ -14,64 +14,45 @@ const AddProduct = async (req, res) => {
       bestseller,
     } = req.body;
 
-    // Check if req.files exists
-    if (!req.files || Object.keys(req.files).length === 0) {
-      return res.status(400).json({ message: "No files uploaded" });
-    }
-
     const image1 = req.files.image1 && req.files.image1[0];
-
     const image2 = req.files.image2 && req.files.image2[0];
-
     const image3 = req.files.image3 && req.files.image3[0];
-
     const image4 = req.files.image4 && req.files.image4[0];
 
     const images = [image1, image2, image3, image4].filter(
-      (item) => item !== undefine
+      (item) => item !== undefined
     );
 
-    // Upload images to Cloudinary
-    let imageURL = await Promise.all(
+    let imagesUrl = await Promise.all(
       images.map(async (item) => {
-        const result = await cloudinary.uploader(
-          upload(item.path, {
-            resource_type: "image",
-          })
-        );
-
+        let result = await cloudinary.uploader.upload(item.path, {
+          resource_type: "image",
+        });
         return result.secure_url;
       })
     );
 
-    // Proceed with saving the product
-    const NewProduct = new ProductModel({
+    const productData = {
       name,
       description,
-      price: Number(price),
       category,
+      price: Number(price),
       subCategory,
       bestseller: bestseller === "true" ? true : false,
       sizes: JSON.parse(sizes),
-      image: imageURL,
+      image: imagesUrl,
       date: Date.now(),
-    });
+    };
 
-    await NewProduct.save();
-    console.log(
-      name,
-      description,
-      price,
-      category,
-      subCategory,
-      sizes,
-      bestseller
-    );
-    console.log(imageURL);
-    res.status(201).json({ success: true, message: "Product added" });
+    console.log(productData);
+
+    const product = new productModel(productData);
+    await product.save();
+
+    res.json({ success: true, message: "Product Added" });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, message: error.message });
+    res.json({ success: false, message: error.message });
   }
 };
 

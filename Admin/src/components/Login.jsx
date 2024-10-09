@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-
 import { BackendUrl } from "../App";
 
 const Login = ({ setToken }) => {
@@ -30,47 +29,46 @@ const Login = ({ setToken }) => {
       console.error(error);
     }
   };
-
   return (
-    <div className="flex justify-center items-center min-h-screen">
-      <div className="bg-white p-8 rounded shadow-md w-[400px]">
-        <h2 className="text-2xl mb-6 text-center">Admin Login</h2>
-        {error && <p className="text-red-500 mb-4">{error}</p>}
+    <div className="min-h-screen flex items-center justify-center w-full">
+      <div className="bg-white shadow-md rounded-lg px-8 py-6 max-w-md">
+        <h1 className="text-2xl font-bold mb-4">Admin Panel</h1>
         <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label htmlFor="email" className="block text-gray-700 mb-2">
-              Email
-            </label>
+          <div className="mb-3 min-w-72">
+            <p className="text-sm font-medium text-gray-700 mb-2">
+              Email Address
+            </p>
             <input
-              type="email"
-              id="email"
-              value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+              value={email}
+              className="rounded-md w-full px-3 py-2 border border-gray-300 outline-none"
+              type="email"
+              placeholder="your@email.com"
               required
             />
           </div>
-          <div className="mb-4">
-            <label htmlFor="password" className="block text-gray-700 mb-2">
-              Password
-            </label>
+          <div className="mb-3 min-w-72">
+            <p className="text-sm font-medium text-gray-700 mb-2">Password</p>
             <input
-              type="password"
-              id="password"
-              value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500"
+              value={password}
+              className="rounded-md w-full px-3 py-2 border border-gray-300 outline-none"
+              type="password"
+              placeholder="Enter your password"
               required
             />
           </div>
           <button
+            className="mt-2 w-full py-2 px-4 rounded-md text-white bg-black"
             type="submit"
-            className="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600"
           >
-            Login
+            {" "}
+            Login{" "}
           </button>
         </form>
       </div>
+
+      {error && <p className="text-red-500">{error}</p>}
     </div>
   );
 };

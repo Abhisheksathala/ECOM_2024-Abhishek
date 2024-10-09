@@ -1,6 +1,8 @@
 import express from "express";
 import cors from "cors";
 import "dotenv/config";
+import bodyParser from "body-parser"; // If you're using this package
+import multer from "multer";
 
 import connectCloudinary from "./src/Cloudnary/Cloudinary.js";
 import INDEXdb from "./src/DB/INDEXdb.js";
