@@ -46,5 +46,6 @@ INDEXdb()
     console.log('Connected to MongoDB');
   })
   .catch((err) => {
-    console.log('MONGO DB CONNECTION FAILED', err);
+    console.error('MONGO DB CONNECTION FAILED', err);
+    process.exit(1); // Exit the process with a failure
   });
