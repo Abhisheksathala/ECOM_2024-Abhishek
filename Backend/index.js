@@ -1,13 +1,15 @@
-import express from "express";
-import cors from "cors";
-import "dotenv/config";
-import bodyParser from "body-parser"; // If you're using this package
-import multer from "multer";
+import express from 'express';
+import cors from 'cors';
+import 'dotenv/config';
+import bodyParser from 'body-parser'; // If you're using this package
+import multer from 'multer';
 
-import connectCloudinary from "./src/Cloudnary/Cloudinary.js";
-import INDEXdb from "./src/DB/INDEXdb.js";
-import UserRouter from "./src/Routes/UserRouter.js";
-import ProductRouter from "./src/Routes/ProductRouter.js";
+import connectCloudinary from './src/Cloudnary/Cloudinary.js';
+import INDEXdb from './src/DB/INDEXdb.js';
+import UserRouter from './src/Routes/UserRouter.js';
+import ProductRouter from './src/Routes/ProductRouter.js';
+import CartRouter from './src/Routes/cartRoute.js';
+import OrderRouter from './src/Routes/orderRoute.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -20,17 +22,19 @@ app.use(cors());
 connectCloudinary();
 
 // API Endpoints
-app.use("/api/user", UserRouter);
-app.use("/api/product", ProductRouter);
+app.use('/api/user', UserRouter);
+app.use('/api/product', ProductRouter);
+app.use('/api/cart', CartRouter);
+app.use('/api/order', OrderRouter);
 
 // Root route
-app.get("/", (req, res) => {
-  res.send("Hello World! API is working");
+app.get('/', (req, res) => {
+  res.send('Hello World! API is working');
 });
 
 // Fallback route for unmatched URLs
 app.use((req, res) => {
-  res.status(404).json({ message: "Route not found" });
+  res.status(404).json({ message: 'Route not found' });
 });
 
 // Start the server after connecting to the database
@@ -41,5 +45,5 @@ INDEXdb()
     });
   })
   .catch((err) => {
-    console.log("MONGO DB CONNECTION FAILED", err);
+    console.log('MONGO DB CONNECTION FAILED', err);
   });

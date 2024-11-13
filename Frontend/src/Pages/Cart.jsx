@@ -1,45 +1,50 @@
-import { ShopContext } from "../Context/ShopContext";
-import { useContext, useEffect, useState } from "react";
-import Title from "./../Components/Title";
-import { assets } from "../assets/assets";
-import CartTotal from "../Components/CartTotal";
+import { ShopContext } from '../Context/ShopContext';
+import { useContext, useEffect, useState } from 'react';
+import Title from './../Components/Title';
+import { assets } from '../assets/assets';
+import CartTotal from '../Components/CartTotal';
 
 const Cart = () => {
   const { cartItems, currency, products, updateQuantity, navigate } =
     useContext(ShopContext);
+
   const [cartData, setCartData] = useState([]);
   useEffect(() => {
-    // Initialize an array to hold the cart data
-    const tempData = [];
+    if (products.length > 0) {
+      // Initialize an array to hold the cart data
+      const tempData = [];
 
-    // Iterate over each item in cartItems
-    for (const itemId in cartItems) {
-      // Iterate over each size for the current item
-      for (const size in cartItems[itemId]) {
-        // Check if the quantity for this size is greater than 0
-        if (cartItems[itemId][size] > 0) {
-          // Push an object with item details to tempData
-          tempData.push({
-            _id: itemId, // Unique identifier for the item
-            size: size, // Size of the item
-            Quantity: cartItems[itemId][size], // Quantity of the item for this size
-          });
+      // Iterate over each item in cartItems
+      for (const itemId in cartItems) {
+        // Iterate over each size for the current item
+        for (const size in cartItems[itemId]) {
+          // Check if the quantity for this size is greater than 0
+          if (cartItems[itemId][size] > 0) {
+            // Push an object with item details to tempData
+            tempData.push({
+              _id: itemId, // Unique identifier for the item
+              size: size, // Size of the item
+              Quantity: cartItems[itemId][size], // Quantity of the item for this size
+            });
+          }
         }
       }
+      setCartData(tempData);
     }
 
     // Update cartData with the new array
-    setCartData(tempData);
-  }, [cartItems]); // Dependency array: effect runs when cartItems changes
+  }, [cartItems, products]); // Dependency array: effect runs when cartItems changes
+
+  
   return (
     <div className="border-t pt-14">
-      <div className="text-2xl mb-3 ">
+      <div className="mb-3 text-2xl ">
         <Title text1="Cart" />
       </div>
       <div className="">
         {cartData.map((item, index) => {
           const productData = products.find(
-            (product) => product._id === item._id
+            (product) => product._id === item._id,
           );
           return (
             <div
@@ -64,7 +69,7 @@ const Cart = () => {
                 <input
                   className="text-sm border max-w-[40px] sm:max-w-[80px] sm:px-2 py-1"
                   onChange={(e) => {
-                    e.target.value === "" || e.target.value === "0"
+                    e.target.value === '' || e.target.value === '0'
                       ? null
                       : updateQuantity(item._id, item.size, e.target.value);
                   }}
@@ -76,22 +81,22 @@ const Cart = () => {
                   src={assets.bin_icon}
                   alt=""
                   onClick={() => updateQuantity(item._id, item.size, 0)}
-                  className="w-4 mr-4 sm:w-5 cursor-pointer"
+                  className="w-4 mr-4 cursor-pointer sm:w-5"
                 />
               </div>
             </div>
           );
         })}
       </div>
-      <div className="flex  justify-end my-20">
+      <div className="flex justify-end my-20">
         <div className="w-full sm:w-[450px]">
           <CartTotal />
           <div className="w-full text-end">
             <button
               onClick={() => {
-                navigate("/place-order");
+                navigate('/place-order');
               }}
-              className="bg-black  text-white text-sm my-8 py-3 px-4 "
+              className="px-4 py-3 my-8 text-sm text-white bg-black "
             >
               Proceed To Checkout
             </button>

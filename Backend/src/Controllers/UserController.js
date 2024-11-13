@@ -1,16 +1,12 @@
-import UserModel from "../model/UserModel.js";
-import jws from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import Validator from "validator";
+import UserModel from '../model/UserModel.js';
+import jws from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import Validator from 'validator';
 
 const CreateToken = (payload) => {
-  return jws.sign(
-    payload, // Use the payload object directly (either {id} for users or {email} for admin)
-    process.env.SECRET_KEY,
-    {
-      expiresIn: "30d",
-    }
-  );
+  return jws.sign(payload, process.env.SECRET_KEY, {
+    expiresIn: '30d',
+  });
 };
 
 const RegisterUser = async (req, res) => {
@@ -21,17 +17,17 @@ const RegisterUser = async (req, res) => {
     if (existUser) {
       return res
         .status(400)
-        .json({ success: false, message: "User already exist" });
+        .json({ success: false, message: 'User already exist' });
     }
 
     if (!Validator.isEmail(email)) {
-      return res.status(400).json({ success: false, message: "Invalid Email" });
+      return res.status(400).json({ success: false, message: 'Invalid Email' });
     }
 
     if (password.length < 8) {
       return res
         .status(400)
-        .json({ success: false, message: "Password must be at least 8" });
+        .json({ success: false, message: 'Password must be at least 8' });
     }
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
@@ -42,14 +38,15 @@ const RegisterUser = async (req, res) => {
     });
     const user = await NewUser.save();
 
-    const token = CreateToken(user._id);
+    const token = CreateToken({ id: user._id }); // Correct structure
 
     res.status(200).json({
       success: true,
       token: token,
-      message: "User created successfully",
+      message: 'User created successfully',
     });
   } catch (error) {
+    console.error('Error in RegisterUser:', error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -62,54 +59,45 @@ const loginUser = async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: "User not found" });
+        .json({ success: false, message: 'User not found' });
     }
 
     const checkPassword = bcrypt.compareSync(password, user.password);
     if (!checkPassword) {
       return res
         .status(400)
-        .json({ success: false, message: "Invalid password" });
+        .json({ success: false, message: 'Invalid password' });
     }
 
-    const token = CreateToken(user._id);
+    const token = CreateToken({ id: user._id });
     res.status(200).json({
       success: true,
       token: token,
-      message: "Login successfully",
+      message: 'Login successfully',
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
   }
 };
 
-const AdminLogin = async (req, res) => {
+const adminLogin = async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Check if credentials match the stored admin credentials
     if (
       email === process.env.ADMIN_EMAIL &&
       password === process.env.ADMIN_PASSWORD
     ) {
-      const token = CreateToken({ email }); // Only pass the email to the token payload
-
-      console.log("admin logged in");
-
-      return res.status(200).json({
-        success: true,
-        token,
-        message: "Login successfully",
-      });
+      // Use jws.sign() instead of jwt.sign()
+      const token = jws.sign(email + password, process.env.SECRET_KEY);
+      res.json({ success: true, token });
     } else {
-      return res
-        .status(400)
-        .json({ success: false, message: "Invalid Credentials" });
+      res.json({ success: false, message: 'Invalid credentials' });
     }
   } catch (error) {
     console.log(error);
-    res.status(500).json({ success: false, message: error.message });
+    res.json({ success: false, message: error.message });
   }
 };
 
-export { loginUser, RegisterUser, AdminLogin };
+export { loginUser, RegisterUser, adminLogin };
