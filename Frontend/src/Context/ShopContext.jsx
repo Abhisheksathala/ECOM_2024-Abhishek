@@ -16,7 +16,7 @@ const ShopContextProvider = (props) => {
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState('');
 
-  const backendURL = 'https://backend2024-omega.vercel.app/';
+  const backendURL = 'http://localhost:4000';
 
   const navigate = useNavigate();
 
