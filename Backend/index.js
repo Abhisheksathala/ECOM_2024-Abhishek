@@ -40,9 +40,10 @@ app.use((req, res) => {
 // Start the server after connecting to the database
 INDEXdb()
   .then(() => {
-    app.listen(PORT, () => {
-      console.log(`Server running on port ${PORT}`);
-    });
+    // app.listen(PORT, () => {
+    //   console.log(`Server running on port ${PORT}`);
+    // });
+    console.log('Connected to MongoDB');
   })
   .catch((err) => {
     console.log('MONGO DB CONNECTION FAILED', err);
