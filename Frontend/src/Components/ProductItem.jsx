@@ -11,7 +11,7 @@ const ProductItem = ({ id, name, price, image }) => {
         <div className="overflow-hidden">
           <img
             src={image[0]}
-            className="w-full h-48 object-cover transition-transform duration-300 hover:scale-105"
+            className="w-full  object-cover transition-transform duration-300 hover:scale-105"
             alt={name}
           />
         </div>

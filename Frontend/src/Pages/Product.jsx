@@ -28,7 +28,7 @@ const Product = () => {
   }
 
   return (
-    <div className="border-t-2 pt-1- transition-opacity ease-in duration-500 opacity-100">
+    <div className="border-t-2 pt-4 transition-opacity ease-in duration-500 opacity-100">
       {/* product data */}
       <div className="flex gap-12 sm:gp-12 flex-col sm:flex-row">
         {/* product image */}
@@ -39,7 +39,7 @@ const Product = () => {
               <img
                 key={index}
                 src={img}
-                className="..."
+                className="... w-16 sm:w-20 cursor-pointer"
                 onClick={() => setImage(img)}
                 alt={`Thumbnail ${index + 1}`}
               />
@@ -110,13 +110,14 @@ const Product = () => {
         </div>
         <div className="flex  flex-col gap-4  border px-6 py-6  text-sm text-gray ">
           <p>
+            {/* Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod,
+            vitae. */}
+            {productData?.description}
+          </p>
+          {/* <p>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod,
             vitae.
-          </p>
-          <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod,
-            vitae.
-          </p>
+          </p> */}
         </div>
       </div>
       {/* display  related  products */}

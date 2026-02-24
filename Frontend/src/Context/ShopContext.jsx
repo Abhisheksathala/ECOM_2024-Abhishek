@@ -8,7 +8,7 @@ import axios from 'axios';
 export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
-  const currency = '$';
+  const currency = '₹';
   const deliver_fee = 10;
   const [search, setSearch] = useState('');
   const [showSearch, setShowSearch] = useState(false);
@@ -97,12 +97,10 @@ const ShopContextProvider = (props) => {
 
   const getCartAmount = () => {
     let totalAmount = 0;
-
     // Loop through cartItems
     for (const itemId in cartItems) {
       // Find the product based on the item's id
       const itemInfo = products.find((product) => product._id === itemId);
-
       // If the product is found
       if (itemInfo) {
         // Loop through the sizes or variants of the product in cartItems
@@ -119,7 +117,6 @@ const ShopContextProvider = (props) => {
         }
       }
     }
-
     return totalAmount;
   };
 

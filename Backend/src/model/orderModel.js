@@ -28,9 +28,9 @@ const orderSchema = mongoose.Schema(
       default: false,
     },
     date: {
-      type: Date, // Change this from Number to Date
+      type: Date, 
       required: true,
-      default: Date.now, // Automatically set the current date if not provided
+      default: Date.now, 
     },
   },
   {

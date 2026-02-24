@@ -32,11 +32,13 @@ const Collection = () => {
   };
 
   const applyFilter = () => {
+    
+    if (!products || products.length === 0) return;
+    
     let filtered = products;
-
     if (showSearch && search) {
       filtered = filtered.filter((item) =>
-        item.title.toLowerCase().includes(search.toLowerCase()),
+        item.name.toLowerCase().includes(search.toLowerCase()),
       );
     }
 
@@ -46,7 +48,7 @@ const Collection = () => {
 
     if (SUBcategory.length > 0) {
       filtered = filtered.filter((item) =>
-        SUBcategory.includes(item.subcategory),
+        SUBcategory.includes(item.subCategory),
       );
     }
 
@@ -76,7 +78,8 @@ const Collection = () => {
 
   useEffect(() => {
     sortProduct();
-  }, [sortType, filteredProducts]);
+  }, [sortType ]);
+  // filteredProducts removed it from top man 
 
   return (
     <div className="flex flex-col gap-1 pt-10 border-t sm:flex-row sm:gap-0">
