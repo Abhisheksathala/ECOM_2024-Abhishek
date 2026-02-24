@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { assets } from './../assets/assets';
-import { BackendUrl } from '../App';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { assets } from "./../assets/assets";
+import { BackendUrl } from "../App";
 
 const Orders = ({ token }) => {
   const [orders, setOrders] = useState([]);
@@ -17,7 +17,7 @@ const Orders = ({ token }) => {
           headers: { token },
         },
       );
-      console.log('Response:', response.data);
+      console.log("Response:", response.data);
 
       if (response.data.success) {
         setOrders(response.data.orders);
@@ -32,7 +32,7 @@ const Orders = ({ token }) => {
 
   useEffect(() => {
     fetchAllOrders();
-  }, []);
+  }, [token]);
 
   const statusHandeler = async (event, orderId) => {
     try {
@@ -44,7 +44,7 @@ const Orders = ({ token }) => {
           headers: { token },
         },
       );
-      console.log('Response:', response.data);
+      console.log("Response:", response.data);
 
       if (response.data.success) {
         await fetchAllOrders();
@@ -117,7 +117,7 @@ const Orders = ({ token }) => {
                 Payment Status:
               </h5>
               <p className="text-gray-800">
-                {order.payment ? 'Done' : 'Pending'}
+                {order.payment ? "Done" : "Pending"}
               </p>
             </div>
 
@@ -128,12 +128,11 @@ const Orders = ({ token }) => {
               </p>
             </div>
             <select
+              value={order.status}
               onChange={(e) => statusHandeler(e, order._id)}
-              name=""
-              id=""
             >
               <option value="order placed">order placed</option>
-              <option value="Pending">Pending</option>
+              <option value="pending ">Pending</option>
               <option value="Processing">shipped</option>
               <option value="Cancelled">out for delivery</option>
               <option value="Delivered">Delivered</option>

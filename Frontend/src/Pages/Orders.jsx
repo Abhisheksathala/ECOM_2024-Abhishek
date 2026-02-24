@@ -50,9 +50,9 @@ const Orders = () => {
     }
   };
 
-  useEffect(() => {
+   useEffect(() => {
     loadOrders();
-  }, []);
+  }, [token]);;
 
   return (
     <div className="max-w-5xl px-4 py-10 mx-auto">
@@ -114,7 +114,7 @@ const Orders = () => {
               </div>
               <button
                 onClick={() => {
-                  loadOrders;
+                  loadOrders();
                 }}
                 className="px-4 py-2 text-sm font-medium border rounded-sm"
               >
