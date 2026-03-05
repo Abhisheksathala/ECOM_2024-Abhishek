@@ -21,6 +21,7 @@ const Hero = () => {
       </div>
       {/* hero right */}
       <img src={assets.hero_img} className="w-full sm:w-1/2" alt="" />
+      {/* <img src={"https://images.unsplash.com/photo-1529139574466-a303027c1d8b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8ZmFzaGlvbnxlbnwwfHwwfHx8MA%3D%3D"} className="w-full sm:w-1/2" alt="" /> */}
     </div>
   );
 };

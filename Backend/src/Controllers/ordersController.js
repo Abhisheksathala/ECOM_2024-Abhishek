@@ -1,11 +1,11 @@
-import OrderModel from '../model/orderModel.js';
-import UserModel from './../model/UserModel.js';
-import Stripe from 'stripe';
+import OrderModel from "../model/orderModel.js";
+import UserModel from "./../model/UserModel.js";
+import Stripe from "stripe";
 
 // getway intialization
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY); // Use environment variable for security
-const currency = 'inr';
+const currency = "inr";
 const deliveryCharges = 10;
 
 const placeOrder = async (req, res) => {
@@ -21,7 +21,7 @@ const placeOrder = async (req, res) => {
     if (!userId || !items || !address) {
       return res
         .status(400)
-        .json({ message: 'Missing required fields', success: false });
+        .json({ message: "Missing required fields", success: false });
     }
 
     const orderData = {
@@ -29,7 +29,7 @@ const placeOrder = async (req, res) => {
       items,
       amount,
       address,
-      paymentMethod: 'cash',
+      paymentMethod: "cash",
       payment: false,
       date: new Date(),
     };
@@ -41,7 +41,7 @@ const placeOrder = async (req, res) => {
 
     res
       .status(200)
-      .json({ message: 'Order placed successfully', success: true });
+      .json({ message: "Order placed successfully", success: true });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message, success: false });
@@ -56,7 +56,7 @@ const placeOrderStripe = async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ message: 'User not found', success: false });
+        .json({ message: "User not found", success: false });
     }
     if (isNaN(amount) || amount <= 0) {
       amount = 100;
@@ -66,7 +66,7 @@ const placeOrderStripe = async (req, res) => {
       items,
       amount,
       address,
-      paymentMethod: 'stripe',
+      paymentMethod: "stripe",
       payment: false,
       date: new Date(),
     };
@@ -85,7 +85,7 @@ const placeOrderStripe = async (req, res) => {
     line_items.push({
       price_data: {
         currency: currency,
-        product_data: { name: 'Delivery charges' },
+        product_data: { name: "Delivery charges" },
         unit_amount: deliveryCharges * 100,
       },
       quantity: 1,
@@ -95,12 +95,12 @@ const placeOrderStripe = async (req, res) => {
       success_url: `${origin}/verify?success=true&orderId=${newOrder._id}`,
       cancel_url: `${origin}/verify?success=false&orderId=${newOrder._id}`,
       line_items,
-      mode: 'payment',
+      mode: "payment",
     });
 
     return res.status(200).json({
       session_url: session.url,
-      message: 'Order placed successfully',
+      message: "Order placed successfully",
       success: true,
     });
   } catch (error) {
@@ -114,10 +114,10 @@ const verifyStripe = async (req, res) => {
   if (!orderId || !success || !userId) {
     return res
       .status(400)
-      .json({ message: 'All fields are required', success: false });
+      .json({ message: "All fields are required", success: false });
   }
   try {
-    if (success === 'true') {
+    if (success === "true") {
       await OrderModel.findByIdAndUpdate(orderId, { payment: true });
       await UserModel.findByIdAndUpdate(
         userId,
@@ -126,7 +126,7 @@ const verifyStripe = async (req, res) => {
       );
       return res
         .status(200)
-        .json({ message: 'Order verified successfully', success: true });
+        .json({ message: "Order verified successfully", success: true });
     }
   } catch (error) {
     console.error(error);
@@ -135,11 +135,11 @@ const verifyStripe = async (req, res) => {
 };
 const allOrders = async (req, res) => {
   try {
-    const orders = await OrderModel.find({});
+    const orders = await OrderModel.find({}).sort({ createdAt: -1 });
     if (orders.length === 0) {
       return res
         .status(404)
-        .json({ message: 'No orders found', success: false });
+        .json({ message: "No orders found", success: false });
     }
     res.status(200).json({ orders, success: true });
   } catch (error) {
@@ -160,34 +160,57 @@ const userOrders = async (req, res) => {
 };
 const updateorderStatus = async (req, res) => {
   try {
-    const { orderId, status } = req.body;
+ const { orderId, status } = req.body;
 
     if (!orderId || !status) {
-      return res
-        .status(400)
-        .json({ message: 'All fields are required', success: false });
+      return res.status(400).json({
+        message: "All fields are required",
+        success: false,
+      });
     }
-    const order = await OrderModel.findByIdAndUpdate(
+
+    // Find order first
+    const existingOrder = await OrderModel.findById(orderId);
+
+    if (!existingOrder) {
+      return res.status(404).json({
+        message: "Order not found",
+        success: false,
+      });
+    }
+
+    // Prepare update object
+    let updateData = { status };
+
+    // If COD and delivered → mark payment true
+    if (
+      status === "Delivered" &&
+      existingOrder.paymentMethod === "cash"
+    ) {
+      updateData.payment = true;
+    }
+
+    // Update order
+    const updatedOrder = await OrderModel.findByIdAndUpdate(
       orderId,
-      { status },
-      { new: true },
+      updateData,
+      { new: true }
     );
-    if (!order) {
-      return res
-        .status(404)
-        .json({ message: 'Order not found', success: false });
-    }
+
     res.status(200).json({
-      order,
+      order: updatedOrder,
       success: true,
-      message: 'Order status updated successfully',
+      message: "Order status updated successfully",
     });
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: error.message, success: false });
   }
 };
-const placeOrderRazorpay = async (req, res) => {};
+const placeOrderRazorpay = async (req, res) => {
+
+};
 
 export {
   placeOrder,
@@ -196,5 +219,5 @@ export {
   allOrders,
   userOrders,
   updateorderStatus,
-  verifyStripe
+  verifyStripe,
 };

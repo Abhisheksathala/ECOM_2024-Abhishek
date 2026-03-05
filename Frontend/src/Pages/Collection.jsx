@@ -88,7 +88,7 @@ const Collection = () => {
       ) : (
         <>
           {/* filter options */}
-          <div className="min-w-60">
+          <div className="min-w-60 mt-4">
             <p
               onClick={() => {
                 setShowFilter(!showFilter);
