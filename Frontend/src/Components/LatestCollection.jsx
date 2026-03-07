@@ -3,6 +3,7 @@ import { useContext } from "react";
 import Title from "./Title";
 import { useState, useEffect } from "react";
 import ProductItem from "./ProductItem";
+import ProductItemsRounded from "./ProductItemsRounded";
 
 const LatestCollection = () => {
   const { products } = useContext(ShopContext);
@@ -24,13 +25,20 @@ const LatestCollection = () => {
       <div className="grid grid-cols-2 sm:grid-col-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
         {latestproducts.map((item, index) => {
           return (
-            <ProductItem
+            <ProductItemsRounded
               key={index}
               id={item._id}
               name={item.name}
               price={item.price}
               image={item.image}
             />
+            // <ProductItem
+            //   key={index}
+            //   id={item._id}
+            //   name={item.name}
+            //   price={item.price}
+            //   image={item.image}
+            // />
           );
         })}
       </div>

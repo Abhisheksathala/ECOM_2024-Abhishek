@@ -10,9 +10,9 @@ import TextLoaderDemo from "../Components/Animations/TextLoader";
 const Home = () => {
   return (
     <div>
+      <TextLoaderDemo />
       <Hero />
       <ProductInfintScroll />
-      <TextLoaderDemo />
       <LatestCollection />
       <Bestseller />
       <OurPolicy />
