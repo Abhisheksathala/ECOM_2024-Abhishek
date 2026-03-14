@@ -99,6 +99,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { Instagram, Facebook, MessageCircle, Mail } from "lucide-react";
+import MADVIRE from "../assets/MADVIRE.jpeg"
 
 const Footer = () => {
 
@@ -221,7 +222,7 @@ const Footer = () => {
 
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="font-display text-4xl text-primary">
-                  M
+                 <img src={MADVIRE} alt="" className="w-12 h-12" />
                 </span>
               </div>
 

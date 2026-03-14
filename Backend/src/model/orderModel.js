@@ -1,13 +1,18 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const orderSchema = mongoose.Schema(
   {
     userId: {
-      type: String,
+      type: mongoose.Types.ObjectId,
+      ref: "user",
       required: true,
     },
     items: {
       type: Array,
+      required: true,
+    },
+    address: {
+      type: Object,
       required: true,
     },
     amount: {
@@ -16,7 +21,7 @@ const orderSchema = mongoose.Schema(
     },
     status: {
       type: String,
-      default: 'pending',
+      default: "pending",
     },
     paymentMethod: {
       type: String,
@@ -28,9 +33,9 @@ const orderSchema = mongoose.Schema(
       default: false,
     },
     date: {
-      type: Date, 
+      type: Date,
       required: true,
-      default: Date.now, 
+      default: Date.now,
     },
   },
   {
@@ -38,6 +43,6 @@ const orderSchema = mongoose.Schema(
   },
 );
 
-const OrderModel = mongoose.model('Order', orderSchema);
+const OrderModel = mongoose.model("Order", orderSchema);
 
 export default OrderModel;

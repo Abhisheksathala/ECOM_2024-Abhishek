@@ -48,6 +48,7 @@ import { lazy, Suspense } from "react";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Newsletter from "./Components/Newsletter";
 
 const About = lazy(() => import("./Pages/About"));
 const Cart = lazy(() => import("./Pages/Cart"));
@@ -89,6 +90,7 @@ const App = () => {
         </Routes>
 
         <Footer />
+           <Newsletter />
       </Suspense>
     </div>
   );

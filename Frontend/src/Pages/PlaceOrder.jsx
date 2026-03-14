@@ -240,16 +240,16 @@
 
 // export default PlaceOrder;
 
-import Title from '../Components/Title';
-import CartTotal from '../Components/CartTotal';
-import { assets } from '../assets/assets';
-import { useState, useContext } from 'react';
-import { ShopContext } from '../Context/ShopContext';
-import { toast } from 'react-toastify';
-import axios from 'axios';
+import Title from "../Components/Title";
+import CartTotal from "../Components/CartTotal";
+import { assets } from "../assets/assets";
+import { useState, useContext } from "react";
+import { ShopContext } from "../Context/ShopContext";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const PlaceOrder = () => {
-  const [method, setMethod] = useState('cod');
+  const [method, setMethod] = useState("cod");
   const {
     navigate,
     backendURL,
@@ -262,15 +262,15 @@ const PlaceOrder = () => {
   } = useContext(ShopContext);
 
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    street: '',
-    city: '',
-    state: '',
-    zipcode: '',
-    country: '',
-    phone: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    street: "",
+    city: "",
+    state: "",
+    zipcode: "",
+    country: "",
+    phone: "",
   });
 
   const onChangeHandler = (e) => {
@@ -279,36 +279,68 @@ const PlaceOrder = () => {
 
   // Simple validation function
   const validateForm = () => {
-    // Check if any field is empty
     for (let key in formData) {
-      if (!formData[key] || formData[key].trim() === '') {
-        toast.error('Please fill in all fields');
+      if (!formData[key] || formData[key].trim() === "") {
+        toast.error("Please fill in all fields");
         return false;
       }
     }
-    
+
     // Email validation
     if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      toast.error('Please enter a valid email address');
+      toast.error("Please enter a valid email address");
       return false;
     }
-    
+
     // Phone validation (basic)
-    if (!/^\d{10,}$/.test(formData.phone.replace(/\D/g, ''))) {
-      toast.error('Please enter a valid phone number');
+    if (!/^\d{10,}$/.test(formData.phone.replace(/\D/g, ""))) {
+      toast.error("Please enter a valid phone number");
       return false;
     }
-    
+
     return true;
   };
 
   const paymentMethods = [
-    { id: 'stripe', label: 'Stripe', logo: assets.stripe_logo },
-    { id: 'razorpay', label: 'Razorpay', logo: assets.razorpay_logo },
-    { id: 'cod', label: 'CASH ON DELIVERY' },
+    { id: "stripe", label: "Stripe", logo: assets.stripe_logo },
+    { id: "razorpay", label: "Razorpay", logo: assets.razorpay_logo },
+    { id: "cod", label: "CASH ON DELIVERY" },
   ];
-  
+
   let amount = getCartAmount() + delivery_fee;
+
+  const initpay = (order) => {
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY,
+      amount: order.amount,
+      currency: order.currency,
+      name: "order payment",
+      description: "order payment",
+      order_id: order.id,
+      receipt: order.receipt,
+      handler: async (response) => {
+        console.log(response);
+        try {
+          const { data } = await axios.post(
+            backendURL + "/api/order/verifyRazorpay",
+            response,
+            {
+              headers: { token },
+            },
+          );
+          if (data.success) {
+            navigate("/orders");
+            setCartItems({});
+          }
+        } catch (error) {
+          console.log(error);
+          toast.error(error);
+        }
+      },
+    };
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
 
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
@@ -320,15 +352,15 @@ const PlaceOrder = () => {
 
     // Check if cart is empty
     if (Object.keys(cartItems).length === 0) {
-      toast.error('Your cart is empty');
-      navigate('/cart');
+      toast.error("Your cart is empty");
+      navigate("/cart");
       return;
     }
 
     // Check if user is logged in
     if (!token) {
-      toast.error('Please login to place order');
-      navigate('/login');
+      toast.error("Please login to place order");
+      navigate("/login");
       return;
     }
 
@@ -359,7 +391,7 @@ const PlaceOrder = () => {
         paymentMethod: method,
       };
 
-      if (method === 'cod') {
+      if (method === "cod") {
         const response = await axios.post(
           `${backendURL}/api/order/placeorder`,
           orderData,
@@ -369,11 +401,11 @@ const PlaceOrder = () => {
         if (response.data.success) {
           setCartItems({});
           toast.success(response.data.message);
-          navigate('/orders');
+          navigate("/orders");
         } else {
           toast.error(response.data.message);
         }
-      } else if (method === 'stripe') {
+      } else if (method === "stripe") {
         const response = await axios.post(
           `${backendURL}/api/order/placeorderstripe`,
           orderData,
@@ -388,18 +420,35 @@ const PlaceOrder = () => {
         } else {
           toast.error(response.data.message);
         }
+      } else if (method === "razorpay") {
+        const response = await axios.post(
+          `${backendURL}/api/order/placeorderrazorpay`,
+          orderData,
+          { headers: { token } },
+        );
+
+        if (response.data.success) {
+          initpay(response.data.order);
+          // const { session_url } = response.data;
+          // window.location.replace(session_url);
+          // console.log(response);
+          // setCartItems({});
+          toast.success(response.data.message);
+        } else {
+          toast.error(response.data.message);
+        }
       } else {
-        toast.error('Please select a valid payment method.');
+        toast.error("Please select a valid payment method.");
       }
     } catch (error) {
       console.error(error);
-      
+
       if (error.response) {
-        toast.error(error.response.data.message || 'Server error occurred');
+        toast.error(error.response.data.message || "Server error occurred");
       } else if (error.request) {
-        toast.error('Network error. Please check your connection');
+        toast.error("Network error. Please check your connection");
       } else {
-        toast.error('Failed to place order: ' + error.message);
+        toast.error("Failed to place order: " + error.message);
       }
     }
   };
@@ -511,7 +560,7 @@ const PlaceOrder = () => {
             >
               <p
                 className={`min-w-3.5 h-3.5 border rounded-full ${
-                  method === id ? 'bg-green-400' : ''
+                  method === id ? "bg-green-400" : ""
                 }`}
               ></p>
               {logo ? (

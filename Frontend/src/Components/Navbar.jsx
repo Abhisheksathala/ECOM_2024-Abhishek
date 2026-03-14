@@ -1,10 +1,11 @@
-import { assets } from '../assets/assets';
-import { NavLink, Link } from 'react-router-dom';
-import { useState, useContext } from 'react';
-import { ShopContext } from '../Context/ShopContext';
+import { assets } from "../assets/assets";
+import { NavLink, Link } from "react-router-dom";
+import { useState, useContext } from "react";
+import { ShopContext } from "../Context/ShopContext";
+import MADVIRE from "../assets/MADVIRE.jpeg"
 
 const Navbar = () => {
-  const [active, setActive] = useState('home');
+  const [active, setActive] = useState("home");
   const [viable, setViable] = useState(false);
   const {
     setShowSearch,
@@ -16,76 +17,86 @@ const Navbar = () => {
   } = useContext(ShopContext);
 
   const logout = () => {
-    setToken('');
+    setToken("");
     setCartItems({});
-    localStorage.removeItem('token');
-    navigate('/login');
+    localStorage.removeItem("token");
+    navigate("/login");
   };
 
   return (
     <div className="flex items-center justify-between py-5 font-medium">
-      <Link to={'/'}>
-        <img src={assets.logo} className="w-36" alt="" />
-      </Link>
-
       <ul className="hidden gap-5 text-sm text-gray-700 sm:flex">
         <NavLink to="/" className="flex flex-col items-center gap-1">
           <p
             onClick={() => {
-              setActive('home');
+              setActive("home");
             }}
           >
             Home
           </p>
-          {active === 'home' ? (
+          {active === "home" ? (
             <hr className="w-2/4 border-none h-[2.5px] bg-gray-700" />
           ) : (
-            ''
+            ""
           )}
         </NavLink>
-        <NavLink to="/collection" className="flex flex-col items-center gap-1">
+        <NavLink
+          to="/collection"
+          className="flex flex-col -mt-5 items-center gap-1 justify-center"
+        >
           <p
             onClick={() => {
-              setActive('collection');
+              setActive("collection");
             }}
+            className="flex items-center flex-col"
           >
-            COLLECTION
+            <div>
+              <b>Mad</b>
+            </div>
+            <div>COLLECTION</div>
           </p>
-          {active === 'collection' ? (
+          {active === "collection" ? (
             <hr className="w-2/4 border-none h-[2.5px] bg-gray-700" />
           ) : (
-            ''
+            ""
           )}
         </NavLink>
-        <NavLink to="/about" className="flex flex-col items-center gap-1">
+        {/* <NavLink to="/about" className="flex flex-col items-center gap-1">
           <p
             onClick={() => {
-              setActive('about');
+              setActive("about");
             }}
           >
             ABOUT
           </p>
-          {active === 'about' ? (
+          {active === "about" ? (
             <hr className="w-2/4 border-none h-[2.5px] bg-gray-700" />
           ) : (
-            ''
+            ""
           )}
-        </NavLink>
+        </NavLink> */}
         <NavLink to="/contact" className="flex flex-col items-center gap-1">
           <p
             onClick={() => {
-              setActive('contact');
+              setActive("contact");
             }}
           >
             CONTACT
           </p>
-          {active === 'contact' ? (
+          {active === "contact" ? (
             <hr className="w-2/4 border-none h-[2.5px] bg-gray-700" />
           ) : (
-            ''
+            ""
           )}
         </NavLink>
       </ul>
+
+
+      <Link to={"/"}>
+        {/* <img src={assets.logo} className="w-36" alt="" /> */}
+        <img src={MADVIRE} className="w-[4rem] h-[4rem]" alt="" />
+      </Link>
+
       <div className="flex items-center gap-6">
         <img
           onClick={() => setShowSearch(true)}
@@ -95,7 +106,7 @@ const Navbar = () => {
         />
         <div className="relative group">
           <img
-            onClick={() => (token ? null : navigate('/login'))}
+            onClick={() => (token ? null : navigate("/login"))}
             src={assets.profile_icon}
             className="w-5 cursor-pointer"
             alt=""
@@ -107,7 +118,7 @@ const Navbar = () => {
                 <p className="cursor-pointer hover:text-black">My Profile</p>
                 <p
                   className="cursor-pointer hover:text-black"
-                  onClick={() => navigate('/orders')}
+                  onClick={() => navigate("/orders")}
                 >
                   Orders
                 </p>
@@ -136,7 +147,7 @@ const Navbar = () => {
       {/* siderbar menu for small screen */}
       <div
         className={`absolute top-0 right-0 bottom-0 overflow-hidden bg-white transition-all duration-300 ${
-          viable ? 'w-full' : 'w-0'
+          viable ? "w-full" : "w-0"
         }`}
       >
         <div className="flex flex-col text-gray-600">

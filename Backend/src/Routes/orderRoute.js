@@ -7,6 +7,7 @@ import {
   userOrders,
   updateorderStatus,
   verifyStripe,
+  verifyRazorpay,
 } from './../Controllers/ordersController.js';
 import adminAuth from '../Middleware/AdminAuth.js'; // Ensure the extension is .js
 import authUser from './../Middleware/auth.js'; // Ensure the extension is .js
@@ -27,5 +28,6 @@ OrderRouter.post('/userorders', authUser, userOrders);
 
 // verifyStripe route
 OrderRouter.post('/verifystripe', authUser, verifyStripe);
+OrderRouter.post('/verifyRazorpay', authUser, verifyRazorpay);
 
 export default OrderRouter;
