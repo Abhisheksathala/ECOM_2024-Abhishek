@@ -40,7 +40,7 @@ const ProductItem = ({ id, name, price, image }) => {
 
   return (
     <MouseTiltCard tiltIntensity={12} scale={1.03} glareIntensity={0.15}>
-      <div className="bg-gray-50 overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 ">
+      <div className="bg-gray-50 overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300 lg:h-[26rem] ">
         <Link to={`/Product/${id}`} className="block text-gray-700">
           
           <div className="overflow-hidden">

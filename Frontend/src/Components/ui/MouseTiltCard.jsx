@@ -75,7 +75,7 @@ const MouseTiltCard = ({
 
       {glareEffect && (
         <div
-          className="absolute inset-0 pointer-events-none rounded-inherit"
+          className="absolute  inset-0 pointer-events-none rounded-inherit"
           style={{
             ...glareStyle,
             transition: isHovered ? "none" : "opacity 0.3s ease",
