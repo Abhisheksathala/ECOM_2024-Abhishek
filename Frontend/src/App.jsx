@@ -90,7 +90,7 @@ const App = () => {
         </Routes>
 
         <Footer />
-           <Newsletter />
+        <Newsletter />
       </Suspense>
     </div>
   );

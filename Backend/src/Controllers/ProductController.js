@@ -1,5 +1,5 @@
-import ProductModel from '../model/ProductModel.js';
-import { v2 as cloudinary } from 'cloudinary';
+import ProductModel from "../model/ProductModel.js";
+import { v2 as cloudinary } from "cloudinary";
 
 // AddProduct Controller
 
@@ -28,7 +28,7 @@ const AddProduct = async (req, res) => {
     let imagesUrl = await Promise.all(
       images.map(async (item) => {
         let result = await cloudinary.uploader.upload(item.path, {
-          resource_type: 'image',
+          resource_type: "image",
         });
         return result.secure_url;
       }),
@@ -40,7 +40,7 @@ const AddProduct = async (req, res) => {
       category,
       price: Number(price),
       subCategory,
-      bestseller: bestseller === 'true' ? true : false,
+      bestseller: bestseller === "true" ? true : false,
       sizes: JSON.parse(sizes),
       image: imagesUrl,
       date: Date.now(),
@@ -51,7 +51,7 @@ const AddProduct = async (req, res) => {
     // Use ProductModel instead of productModel
     const product = new ProductModel(productData); // Corrected here
     await product.save();
-    res.json({ success: true, message: 'Product Added' });
+    res.json({ success: true, message: "Product Added" });
   } catch (error) {
     console.log(error);
     res.json({ success: false, message: error.message });
@@ -64,7 +64,7 @@ const ListProduct = async (req, res) => {
     if (!products) {
       return res
         .status(400)
-        .json({ success: false, message: 'Products not found' });
+        .json({ success: false, message: "Products not found" });
     }
     res.status(200).json({ success: true, products });
   } catch (error) {
@@ -76,13 +76,18 @@ const ListProduct = async (req, res) => {
 const RemoveProduct = async (req, res) => {
   try {
     const { id } = req.body;
+    if (!id) {
+      return res.status(400).json({ success: false, message: "plz send id " });
+    }
     const product = await ProductModel.findByIdAndDelete(id);
     if (!product) {
       return res
         .status(400)
-        .json({ success: false, message: 'Product not found' });
+        .json({ success: false, message: "Product not found" });
     }
-    res.status(200).json({ success: true, message: 'Product removed' });
+    res
+      .status(200)
+      .json({ success: true, message: "Product removed", product: product });
   } catch (error) {
     console.log(error);
     res.status(500).json({ success: false, message: error.message });
@@ -92,11 +97,14 @@ const RemoveProduct = async (req, res) => {
 const SingleProduct = async (req, res) => {
   try {
     const { productId } = req.body;
+    if (!productId) {
+      return res.status(500).json({ success: false, message: "plz give id" });
+    }
     const product = await ProductModel.findById(productId);
     if (!product) {
       return res
         .status(400)
-        .json({ success: false, message: 'Product not found' });
+        .json({ success: false, message: "Product not found" });
     }
     res.status(200).json({ success: true, product });
   } catch (error) {
@@ -105,4 +113,58 @@ const SingleProduct = async (req, res) => {
   }
 };
 
-export { AddProduct, ListProduct, SingleProduct, RemoveProduct };
+const editproduct = async (req, res) => {
+  try {
+    const {
+      name,
+      description,
+      price,
+      category,
+      subCategory,
+      sizes,
+      bestseller,
+    } = req.body;
+
+    const { id } = req.params;
+
+    if (!id) {
+      res.status(400).json({
+        success: false,
+        message: "there is no id plz send it ",
+      });
+    }
+
+    const findproduct = await ProductModel.findById(id);
+
+    if (!findproduct) {
+      res.status(400).json({
+        success: false,
+        message: "no product found",
+      });
+    }
+
+    if (name) findproduct.name = name;
+    if (description) findproduct.description = description;
+    if (price) findproduct.price = price;
+    if (category) findproduct.category = category;
+    if (subCategory) findproduct.subCategory = subCategory;
+    if (sizes) findproduct.sizes = sizes ? sizes : [];
+    if (bestseller !== undefined) findproduct.bestseller = bestseller;
+
+    await findproduct.save();
+
+    res.status(200).json({
+      success: true,
+      message: "Product updated successfully",
+      product: findproduct,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export { AddProduct, ListProduct, SingleProduct, RemoveProduct, editproduct };

@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import { BackendUrl } from '../App';
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
+import axios from "axios";
+import { BackendUrl } from "../App";
+import { useNavigate } from "react-router-dom";
 
 const Listing = ({ token }) => {
   const [list, setList] = useState([]);
+
+  const navigate = useNavigate();
 
   const fetchList = async () => {
     try {
@@ -22,10 +25,13 @@ const Listing = ({ token }) => {
 
   const removeproduct = async (id) => {
     try {
-      const response = await axios.post(`${BackendUrl}/api/product/remove`, {
-        headers: { token },
-        data: { id },
-      });
+      const response = await axios.post(
+        `${BackendUrl}/api/product/remove`,
+        { id },
+        {
+          headers: { token },
+        },
+      );
       if (!response.data.success) {
         throw new Error(response.data.message);
       }
@@ -94,6 +100,12 @@ const Listing = ({ token }) => {
 
             {/* Action Buttons */}
             <div className="flex justify-center space-x-2">
+              <button
+                onClick={() => navigate(`/edit/${product._id}`)}
+                className="px-3 py-1 text-xs font-medium text-white bg-green-500 rounded hover:bg-green-600"
+              >
+                Edit
+              </button>
               <button
                 onClick={() => removeproduct(product._id)}
                 className="px-3 py-1 text-xs font-medium text-white bg-red-500 rounded hover:bg-red-600"

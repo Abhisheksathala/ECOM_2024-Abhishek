@@ -4,6 +4,7 @@ import {
   ListProduct,
   SingleProduct,
   RemoveProduct,
+  editproduct,
 } from "./../Controllers/ProductController.js";
 import upload from "./../Middleware/Multer.js";
 import adminAuth from "../Middleware/AdminAuth.js";
@@ -19,11 +20,12 @@ ProductRouter.post(
     { name: "image3", maxCount: 1 },
     { name: "image4", maxCount: 1 },
   ]),
-  AddProduct
+  AddProduct,
 );
 
 ProductRouter.get("/list", ListProduct);
+ProductRouter.put("/update/:id", editproduct);
 ProductRouter.post("/remove", RemoveProduct);
-ProductRouter.get("/single", SingleProduct);
+ProductRouter.post("/single", SingleProduct);
 
 export default ProductRouter;
