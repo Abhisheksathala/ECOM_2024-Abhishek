@@ -5,6 +5,7 @@ import {
   SingleProduct,
   RemoveProduct,
   editproduct,
+  getDashboard,
 } from "./../Controllers/ProductController.js";
 import upload from "./../Middleware/Multer.js";
 import adminAuth from "../Middleware/AdminAuth.js";
@@ -27,5 +28,6 @@ ProductRouter.get("/list", ListProduct);
 ProductRouter.put("/update/:id", editproduct);
 ProductRouter.post("/remove", RemoveProduct);
 ProductRouter.post("/single", SingleProduct);
+ProductRouter.post("/getDashboard", getDashboard);
 
 export default ProductRouter;

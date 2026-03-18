@@ -1,4 +1,8 @@
 import ProductModel from "../model/ProductModel.js";
+import UserModel from "../model/UserModel.js"; 
+import OrderModel from "../model/orderModel.js";
+
+
 import { v2 as cloudinary } from "cloudinary";
 
 // AddProduct Controller
@@ -167,4 +171,65 @@ const editproduct = async (req, res) => {
   }
 };
 
-export { AddProduct, ListProduct, SingleProduct, RemoveProduct, editproduct };
+const getDashboard = async (req, res) => {
+  try {
+    const totalUsers = await UserModel.countDocuments();
+    const totalProducts = await ProductModel.countDocuments();
+
+    // 👉 ALL TIME
+    const salesData = await OrderModel.aggregate([
+      {
+        $match: {
+          payment: true,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalSales: { $sum: "$amount" },
+          totalOrders: { $sum: 1 },
+        },
+      },
+    ]);
+
+    // 👉 LAST 7 DAYS
+    const last7Days = new Date();
+    last7Days.setDate(last7Days.getDate() - 7);
+
+    const last7DaysData = await OrderModel.aggregate([
+      {
+        $match: {
+          payment: true,
+          createdAt: { $gte: last7Days },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalOrders: { $sum: 1 },
+        },
+      },
+    ]);
+
+    res.json({
+      success: true,
+      totalUsers,
+      totalProducts,
+      totalSales: salesData[0]?.totalSales || 0,
+      totalOrders: salesData[0]?.totalOrders || 0,
+      last7DaysOrders: last7DaysData[0]?.totalOrders || 0,
+    });
+
+  } catch (err) {
+    res.json({ success: false, message: err.message });
+  }
+};
+
+export {
+  AddProduct,
+  ListProduct,
+  SingleProduct,
+  RemoveProduct,
+  editproduct,
+  getDashboard,
+};
