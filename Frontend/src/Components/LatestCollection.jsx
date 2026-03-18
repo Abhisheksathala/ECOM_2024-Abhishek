@@ -16,9 +16,11 @@ const LatestCollection = () => {
   return (
     <div className="my-10">
       <div className="text-center py-8 text-3xl">
-        <Title text1="LATEST ARRIVALS" text2="COLLECTION" />
+        <Title text1="MADVIRA" text2="LATEST ARRIVALS" />
+
         <p className="w-3/4 m-auto text-xs md:text-base sm:text-base text-gray-600">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur
+          Fresh styles just dropped — explore Madvira’s newest collection
+          designed for comfort and confidence.
         </p>
       </div>
       {/* rendering products */}

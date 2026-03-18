@@ -6,7 +6,6 @@ import OurPolicy from "../Components/OurPolicy";
 import ProductInfintScroll from "../Components/Animations/ProductScroll";
 import Slider from "../Components/Slider";
 import { motion } from "framer-motion";
-
 // import TextLoaderDemo from "../Components/Animations/TextLoader";
 
 const InfinityText = () => {
@@ -33,7 +32,7 @@ const InfinityText = () => {
               ease: "linear",
             }}
           >
-             Infinite Motion • Infinite Motion • Infinite Motion •
+            MADVIRA MAN • MADVIRA MAN • MADVIRA MAN •
           </motion.textPath>
         </motion.text>
       </svg>
@@ -42,6 +41,14 @@ const InfinityText = () => {
 };
 
 const Home = () => {
+  
+  const reviews = [
+    { name: "Rahul", text: "Amazing quality bro 🔥", rating: 5 },
+    { name: "Priya", text: "Loved the design 😍", rating: 4 },
+    { name: "Amit", text: "Worth every rupee 💯", rating: 5 },
+    { name: "Sneha", text: "Super comfy clothes 👌", rating: 4 },
+  ];
+
   return (
     <div>
       {/* <TextLoaderDemo /> */}
@@ -53,6 +60,29 @@ const Home = () => {
       <OurPolicy />
       <InfinityText />
       {/* <Newsletter /> */}
+
+      {/* review setion man  */}
+      <div className="overflow-hidden py-10 bg-white">
+        <h2 className="text-center text-2xl font-semibold mb-6">
+          MADVIRA REVIEWS
+        </h2>
+
+        <div className="relative w-full overflow-hidden">
+          {/* moving container */}
+          <div className="flex gap-6 animate-scroll whitespace-nowrap">
+            {[...reviews, ...reviews].map((item, i) => (
+              <div
+                key={i}
+                className="min-w-[250px] bg-white p-4 rounded-xl shadow-md"
+              >
+                <p className="text-gray-600 text-sm">"{item.text}"</p>
+                <h4 className="mt-3 font-semibold">{item.name}</h4>
+                <p className="text-yellow-500">{"⭐".repeat(item.rating)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 };

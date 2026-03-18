@@ -62,7 +62,7 @@ const Product = () => {
             <img src={assets.star_icon} alt="" />
             <img src={assets.star_icon} alt="" />
             <img src={assets.star_dull_icon} alt="" />
-            <p className="pl-2">(122)</p>
+            {/* <p className="pl-2">(122)</p> */}
           </div>
           <p className="mt-5 text-3xl font-medium">
             {currency}
@@ -106,7 +106,7 @@ const Product = () => {
       <div className="mt-20  mb-20">
         <div className="flex ">
           <b className="border px-5 py-3  text-sm ">Description</b>
-          <p className="border px-5 py-3 text-sm">revies(122)</p>
+          {/* <p className="border px-5 py-3 text-sm">revies(122)</p> */}
         </div>
         <div className="flex  flex-col gap-4  border px-6 py-6  text-sm text-gray ">
           <p>
