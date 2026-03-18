@@ -1,4 +1,4 @@
-import Hero from "../Components/Hero";
+// import Hero from "../Components/Hero";
 import LatestCollection from "../Components/LatestCollection";
 import Bestseller from "../Components/Bestseller";
 import OurPolicy from "../Components/OurPolicy";
@@ -11,9 +11,8 @@ import { motion } from "framer-motion";
 
 const InfinityText = () => {
   return (
-    <div className="flex justify-center items-center  bg-black">
-      <svg width="400" height="200" viewBox="0 0 400 200">
-        {/* Infinity path */}
+    <div className="flex justify-center items-center w-full bg-black/20">
+      <svg width="900" height="400" viewBox="0 0 400 200">
         <path
           id="infinityPath"
           d="M50,100 C50,20 150,20 200,100 
@@ -23,8 +22,6 @@ const InfinityText = () => {
           fill="transparent"
           stroke="gray"
         />
-
-        {/* Moving text */}
         <motion.text fontSize="20" fill="white">
           <motion.textPath
             href="#infinityPath"
@@ -36,7 +33,7 @@ const InfinityText = () => {
               ease: "linear",
             }}
           >
-            Infinite Motion • Infinite Motion • Infinite Motion •
+             Infinite Motion • Infinite Motion • Infinite Motion •
           </motion.textPath>
         </motion.text>
       </svg>
