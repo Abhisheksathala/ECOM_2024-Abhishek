@@ -1,28 +1,30 @@
-import { createContext } from 'react';
+import { createContext } from "react";
 // import { products } from '../assets/assets.js';
-import { useState, useEffect } from 'react';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import { useState, useEffect } from "react";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 export const ShopContext = createContext();
 
 const ShopContextProvider = (props) => {
-  const currency = '₹';
+  const currency = "₹";
   const deliver_fee = 10;
-  const [search, setSearch] = useState('');
+
+  const [user, setUser] = useState();
+  const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
-  const [token, setToken] = useState('');
+  const [token, setToken] = useState("");
 
-  const backendURL = 'http://localhost:4000';
+  const backendURL = "http://localhost:4000";
 
   const navigate = useNavigate();
 
   const addToCart = async (itemId, size) => {
     if (!size) {
-      toast.error('Please select size');
+      toast.error("Please select size");
       return;
     }
 
@@ -52,6 +54,14 @@ const ShopContextProvider = (props) => {
       }
     }
   };
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem("user");
+
+    if (storedUser) {
+      setUser(JSON.parse(storedUser));
+    }
+  }, []);
 
   useEffect(() => {
     console.log(cartItems);
@@ -126,7 +136,7 @@ const ShopContextProvider = (props) => {
       console.log(response.data); // This will log the full response structure
       if (response.data.success) {
         setProducts(response.data.products); // Use `response.data.products` here
-        toast.success('Products fetched successfully');
+        toast.success("Products fetched successfully");
       } else if (response.data.error) {
         toast.error(response.data.error);
       }
@@ -138,7 +148,7 @@ const ShopContextProvider = (props) => {
 
   const getUserCart = async () => {
     try {
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const response = await axios.post(
         `${backendURL}/api/cart/getCart`,
         {}, // Empty body if not needed
@@ -165,7 +175,7 @@ const ShopContextProvider = (props) => {
   }, []);
 
   useEffect(() => {
-    const storedToken = localStorage.getItem('token');
+    const storedToken = localStorage.getItem("token");
     if (!token && storedToken) {
       setToken(storedToken);
       getUserCart(); // No need to pass token here explicitly
@@ -190,6 +200,8 @@ const ShopContextProvider = (props) => {
     backendURL,
     token,
     setToken,
+    user,
+    setUser
   };
 
   return (

@@ -113,20 +113,18 @@
 
 // export default SignIn;
 
-
-
-import { useState, useContext, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { ShopContext } from '../Context/ShopContext';
-import axios from 'axios';
-import gsap from 'gsap';
+import { useState, useContext, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ShopContext } from "../Context/ShopContext";
+import axios from "axios";
+import gsap from "gsap";
 
 const SignIn = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const { setToken, backendURL } = useContext(ShopContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const { setToken, backendURL, setUser } = useContext(ShopContext);
   const navigate = useNavigate();
 
   // Refs for shapes
@@ -134,7 +132,7 @@ const SignIn = () => {
   const circleRef = useRef(null);
   const triangleRef = useRef(null);
   const squareRef = useRef(null);
-  
+
   // Refs for eyes inside shapes
   const circleLeftEyeRef = useRef(null);
   const circleRightEyeRef = useRef(null);
@@ -151,20 +149,30 @@ const SignIn = () => {
       const containerRect = containerRef.current.getBoundingClientRect();
 
       // Move eyes for each shape
-      [circleLeftEyeRef, circleRightEyeRef, triangleLeftEyeRef, triangleRightEyeRef, squareLeftEyeRef, squareRightEyeRef].forEach((eyeRef) => {
+      [
+        circleLeftEyeRef,
+        circleRightEyeRef,
+        triangleLeftEyeRef,
+        triangleRightEyeRef,
+        squareLeftEyeRef,
+        squareRightEyeRef,
+      ].forEach((eyeRef) => {
         if (eyeRef.current) {
           const eyeRect = eyeRef.current.getBoundingClientRect();
           const eyeCenterX = eyeRect.left + eyeRect.width / 2;
           const eyeCenterY = eyeRect.top + eyeRect.height / 2;
-          
+
           // Calculate direction from eye to mouse
           const deltaX = clientX - eyeCenterX;
           const deltaY = clientY - eyeCenterY;
-          
+
           // Limit movement range (max 6px in any direction)
-          const distance = Math.min(6, Math.sqrt(deltaX * deltaX + deltaY * deltaY) * 0.2);
+          const distance = Math.min(
+            6,
+            Math.sqrt(deltaX * deltaX + deltaY * deltaY) * 0.2,
+          );
           const angle = Math.atan2(deltaY, deltaX);
-          
+
           const moveX = Math.cos(angle) * distance;
           const moveY = Math.sin(angle) * distance;
 
@@ -172,25 +180,25 @@ const SignIn = () => {
             x: moveX,
             y: moveY,
             duration: 0.2,
-            ease: "power2.out"
+            ease: "power2.out",
           });
         }
       });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!email || !password) {
-      setError('Please fill in all fields.');
+      setError("Please fill in all fields.");
       return;
     }
 
@@ -199,18 +207,18 @@ const SignIn = () => {
         email,
         password,
       });
-
       if (response.data.success) {
-        toast.success('Sign In successful!');
+        toast.success("Sign In successful!");
+        localStorage.setItem("user", JSON.stringify(response.data.user));
         setToken(response.data.token);
-        localStorage.setItem('token', response.data.token);
-        navigate('/');
+        localStorage.setItem("token", response.data.token);
+        navigate("/");
       } else {
         setError(response.data.message);
         toast.error(response.data.message);
       }
     } catch (err) {
-      toast.error('An error occurred. Please try again later.');
+      toast.error("An error occurred. Please try again later.");
       console.error(err);
     }
   };
@@ -251,12 +259,15 @@ const SignIn = () => {
           <div
             className="w-0 h-0"
             style={{
-              borderLeft: '60px solid transparent',
-              borderRight: '60px solid transparent',
-              borderBottom: '104px solid #60A5FA',
+              borderLeft: "60px solid transparent",
+              borderRight: "60px solid transparent",
+              borderBottom: "104px solid #60A5FA",
             }}
           >
-            <div className="relative flex items-center justify-center space-x-4 ml-5" style={{ top: '40px', left: '-30px' }}>
+            <div
+              className="relative flex items-center justify-center space-x-4 ml-5"
+              style={{ top: "40px", left: "-30px" }}
+            >
               <div
                 ref={triangleLeftEyeRef}
                 className="w-4 h-4 bg-white rounded-full flex items-center justify-center"

@@ -1,11 +1,11 @@
-import UserModel from '../model/UserModel.js';
-import jws from 'jsonwebtoken';
-import bcrypt from 'bcrypt';
-import Validator from 'validator';
+import UserModel from "../model/UserModel.js";
+import jws from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import Validator from "validator";
 
 const CreateToken = (payload) => {
   return jws.sign(payload, process.env.SECRET_KEY, {
-    expiresIn: '30d',
+    expiresIn: "30d",
   });
 };
 
@@ -17,17 +17,17 @@ const RegisterUser = async (req, res) => {
     if (existUser) {
       return res
         .status(400)
-        .json({ success: false, message: 'User already exist' });
+        .json({ success: false, message: "User already exist" });
     }
 
     if (!Validator.isEmail(email)) {
-      return res.status(400).json({ success: false, message: 'Invalid Email' });
+      return res.status(400).json({ success: false, message: "Invalid Email" });
     }
 
     if (password.length < 8) {
       return res
         .status(400)
-        .json({ success: false, message: 'Password must be at least 8' });
+        .json({ success: false, message: "Password must be at least 8" });
     }
     const salt = bcrypt.genSaltSync(10);
     const hashPassword = bcrypt.hashSync(password, salt);
@@ -42,11 +42,12 @@ const RegisterUser = async (req, res) => {
 
     res.status(200).json({
       success: true,
+      user: user,
       token: token,
-      message: 'User created successfully',
+      message: "User created successfully",
     });
   } catch (error) {
-    console.error('Error in RegisterUser:', error);
+    console.error("Error in RegisterUser:", error);
     res.status(500).json({ success: false, message: error.message });
   }
 };
@@ -59,21 +60,22 @@ const loginUser = async (req, res) => {
     if (!user) {
       return res
         .status(400)
-        .json({ success: false, message: 'User not found' });
+        .json({ success: false, message: "User not found" });
     }
 
     const checkPassword = bcrypt.compareSync(password, user.password);
     if (!checkPassword) {
       return res
         .status(400)
-        .json({ success: false, message: 'Invalid password' });
+        .json({ success: false, message: "Invalid password" });
     }
 
     const token = CreateToken({ id: user._id });
     res.status(200).json({
       success: true,
+      user: user,
       token: token,
-      message: 'Login successfully',
+      message: "Login successfully",
     });
   } catch (error) {
     res.status(500).json({ success: false, message: error.message });
@@ -92,7 +94,7 @@ const adminLogin = async (req, res) => {
       const token = jws.sign(email + password, process.env.SECRET_KEY);
       res.json({ success: true, token });
     } else {
-      res.json({ success: false, message: 'Invalid credentials' });
+      res.json({ success: false, message: "Invalid credentials" });
     }
   } catch (error) {
     console.log(error);
@@ -100,4 +102,26 @@ const adminLogin = async (req, res) => {
   }
 };
 
-export { loginUser, RegisterUser, adminLogin };
+const getUserProfile = async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    const user = await UserModel.findById(userId).select("-password");
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+export { loginUser, RegisterUser, adminLogin, getUserProfile };

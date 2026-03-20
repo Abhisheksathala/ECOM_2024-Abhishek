@@ -10,18 +10,26 @@ import { motion } from "framer-motion";
 
 const InfinityText = () => {
   return (
-    <div className="flex justify-center items-center w-full bg-black/20">
-      <svg width="900" height="400" viewBox="0 0 400 200">
+    <div className="flex justify-center items-center w-full bg-black mt-5">
+      <svg
+        width="100%"
+        height="300"
+        viewBox="0 0 1200 200"
+        className="max-w-7xl"
+      >
         <path
           id="infinityPath"
-          d="M50,100 C50,20 150,20 200,100 
-              C250,180 350,180 350,100
-              C350,20 250,20 200,100
-              C150,180 50,180 50,100"
+          d="M100,100 
+             C100,10 500,10 600,100 
+             C700,190 1100,190 1100,100
+             C1100,10 700,10 600,100
+             C500,190 100,190 100,100"
           fill="transparent"
           stroke="gray"
+          strokeWidth="2"
         />
-        <motion.text fontSize="20" fill="white">
+
+        <motion.text fontSize="24" fill="white">
           <motion.textPath
             href="#infinityPath"
             startOffset="0%"
@@ -41,7 +49,6 @@ const InfinityText = () => {
 };
 
 const Home = () => {
-  
   const reviews = [
     { name: "Rahul", text: "Amazing quality bro 🔥", rating: 5 },
     { name: "Priya", text: "Loved the design 😍", rating: 4 },

@@ -2,7 +2,7 @@ import { assets } from "../assets/assets";
 import { NavLink, Link } from "react-router-dom";
 import { useState, useContext } from "react";
 import { ShopContext } from "../Context/ShopContext";
-import MADVIRE from "../assets/MADVIRE.jpeg"
+import MADVIRE from "../assets/MADVIRE.jpeg";
 
 const Navbar = () => {
   const [active, setActive] = useState("home");
@@ -61,7 +61,7 @@ const Navbar = () => {
             ""
           )}
         </NavLink>
-        {/* <NavLink to="/about" className="flex flex-col items-center gap-1">
+        <NavLink to="/about" className="flex flex-col items-center gap-1">
           <p
             onClick={() => {
               setActive("about");
@@ -74,7 +74,7 @@ const Navbar = () => {
           ) : (
             ""
           )}
-        </NavLink> */}
+        </NavLink>
         <NavLink to="/contact" className="flex flex-col items-center gap-1">
           <p
             onClick={() => {
@@ -90,7 +90,6 @@ const Navbar = () => {
           )}
         </NavLink>
       </ul>
-
 
       <Link to={"/"}>
         {/* <img src={assets.logo} className="w-36" alt="" /> */}
@@ -115,7 +114,12 @@ const Navbar = () => {
           {token && (
             <div className="absolute right-0 hidden pt-4 group-hover:block dropdown-menu">
               <div className="flex flex-col gap-2 px-5 py-3 text-gray-400 w-36 bg-slate-100">
-                <p className="cursor-pointer hover:text-black">My Profile</p>
+                <p
+                  onClick={() => navigate("/profile")}
+                  className="cursor-pointer hover:text-black"
+                >
+                  My Profile
+                </p>
                 <p
                   className="cursor-pointer hover:text-black"
                   onClick={() => navigate("/orders")}

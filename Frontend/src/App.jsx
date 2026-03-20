@@ -66,6 +66,8 @@ const Navbar = lazy(() => import("./Components/Navbar"));
 const Footer = lazy(() => import("./Components/Footer"));
 const SearchBar = lazy(() => import("./Components/SearchBar"));
 
+const Profile = lazy(() => import("./Pages/Profile"));
+
 const App = () => {
   return (
     <div className="px-4 sm:px-[5vw] md:px-[7vw] lg:px-[9vw]">
@@ -87,6 +89,7 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/verify" element={<Verify />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
 
         <Footer />
