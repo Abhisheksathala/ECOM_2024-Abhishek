@@ -4,6 +4,7 @@ import { useContext, useState, useEffect } from "react";
 import { assets } from "../assets/assets";
 import RelatedProducts from "../Components/RelatedProducts";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const Product = () => {
   const { backendURL } = useContext(ShopContext);
@@ -43,7 +44,10 @@ const Product = () => {
   const handleAddReview = async () => {
     try {
       const token = localStorage.getItem("token");
-
+      if (rating === 0) {
+        toast.error("Please select rating");
+        return;
+      }
       const response = await axios.post(
         `${backendURL}/api/review/add`,
         {
@@ -55,10 +59,10 @@ const Product = () => {
           headers: { token },
         },
       );
-
       if (response.data.success) {
         setComment("");
-        fetchReviews(); // refresh
+        setRating(0);
+        fetchReviews();
       }
     } catch (error) {
       console.log(error);
@@ -195,7 +199,9 @@ const Product = () => {
                   src={
                     star <= rating ? assets.star_icon : assets.star_dull_icon
                   }
-                  className="w-5 cursor-pointer"
+                  className={`w-5 cursor-pointer ${
+                    rating === 0 ? "opacity-70" : ""
+                  }`}
                 />
               ))}
             </div>

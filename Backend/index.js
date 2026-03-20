@@ -12,6 +12,7 @@ import CartRouter from './src/Routes/cartRoute.js';
 import OrderRouter from './src/Routes/orderRoute.js';
 import Reviwerouter from './src/Routes/ProductReview.js';
 import addressRoute from './src/Routes/addressRoute.js';
+import CouponRoute from './src/Routes/CouponRoute.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -30,6 +31,7 @@ app.use('/api/cart', CartRouter);
 app.use('/api/order', OrderRouter);
 app.use("/api/review", Reviwerouter);
 app.use("/api/address", addressRoute);
+app.use("/api/coupon", CouponRoute);
 
 // Root route
 app.get('/', (req, res) => {

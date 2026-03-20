@@ -17,6 +17,7 @@ const ShopContextProvider = (props) => {
   const [cartItems, setCartItems] = useState({});
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState("");
+  const [discount, setDiscount] = useState(0);
 
   const backendURL = "http://localhost:4000";
 
@@ -201,7 +202,9 @@ const ShopContextProvider = (props) => {
     token,
     setToken,
     user,
-    setUser
+    setUser,
+    discount,
+    setDiscount,
   };
 
   return (

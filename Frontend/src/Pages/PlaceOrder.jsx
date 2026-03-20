@@ -252,6 +252,9 @@ const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
   const [addresses, setAddresses] = useState([]);
   const [selectedAddress, setSelectedAddress] = useState(null);
+  const [couponCode, setCouponCode] = useState("");
+  // const [discount, setDiscount] = useState(0);
+
   const {
     navigate,
     backendURL,
@@ -262,8 +265,9 @@ const PlaceOrder = () => {
     delivery_fee,
     products,
     user,
+    setDiscount,
+    discount,
   } = useContext(ShopContext);
-
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -280,7 +284,6 @@ const PlaceOrder = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Simple validation function
   const validateForm = () => {
     for (let key in formData) {
       if (!formData[key] || formData[key].trim() === "") {
@@ -309,7 +312,10 @@ const PlaceOrder = () => {
   const cartAmount = Number(getCartAmount()) || 0;
   const delivery = Number(delivery_fee) || 10;
 
-  let amount = cartAmount + delivery;
+  const originalAmount = cartAmount + delivery;
+  const finalAmount = Math.max(originalAmount - discount, 0);
+
+  let amount = Math.floor(finalAmount);
 
   const initpay = (order) => {
     const options = {
@@ -487,6 +493,27 @@ const PlaceOrder = () => {
     }
   };
 
+  const handleApplyCoupon = async () => {
+    if (discount > 0) {
+      toast.error("Coupon already applied");
+      return;
+    }
+    try {
+      const res = await axios.post(`${backendURL}/api/coupon/apply`, {
+        code: couponCode,
+        amount,
+      });
+      if (res.data.success) {
+        setDiscount(res.data.discount);
+        toast.success("Coupon applied");
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchAddress();
   }, []);
@@ -633,8 +660,30 @@ const PlaceOrder = () => {
         />
       </form>
 
-      <div className="mt-8 min-w-80">
+      <div className="mt-8 min-w-80 mb-8">
+        <div className="flex gap-2 mt-4">
+          <input
+            type="text"
+            placeholder="Enter coupon"
+            value={couponCode}
+            onChange={(e) => setCouponCode(e.target.value)}
+            className="border p-2 flex-1"
+          />
+          <button
+            onClick={handleApplyCoupon}
+            className="bg-black text-white px-4"
+          >
+            Apply
+          </button>
+        </div>
+
         <CartTotal />
+
+        {discount > 0 && (
+          <p className="text-green-600 text-sm mt-2">
+            Discount Applied: ₹{discount}
+          </p>
+        )}
         <Title text1="payment" text2="method" />
         <div className="flex flex-col gap-3 lg:flex-row">
           {paymentMethods.map(({ id, label, logo }) => (

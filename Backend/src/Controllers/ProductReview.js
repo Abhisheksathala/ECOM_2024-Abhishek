@@ -2,9 +2,9 @@ import ReviewModel from "../model/ProductReview.js";
 
 export const addReview = async (req, res) => {
   try {
-    const { productId, comment } = req.body;
+    const { productId, comment, rating } = req.body;
     const userId = req.body.userId;
-    if (!productId || !comment) {
+    if (!productId || !comment || !rating) {
       return res.json({
         success: false,
         message: "Missing fields",
@@ -14,6 +14,7 @@ export const addReview = async (req, res) => {
       productId,
       userId,
       comment,
+      rating,
     });
     await review.save();
     res.json({

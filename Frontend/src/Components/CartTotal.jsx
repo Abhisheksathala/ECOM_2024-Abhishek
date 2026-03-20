@@ -1,10 +1,14 @@
-import React from "react";
 import { useContext } from "react";
 import { ShopContext } from "../Context/ShopContext";
 import Title from "../Components/Title";
 
 const CartTotal = () => {
-  const { currency, deliver_fee, getCartAmount } = useContext(ShopContext);
+  const { currency, deliver_fee, getCartAmount, discount } =
+    useContext(ShopContext);
+
+  const subtotal = getCartAmount();
+  const total = Math.max(subtotal + deliver_fee - discount, 0);
+
   return (
     <div className="w-full">
       <div className="text-2xl">
@@ -21,11 +25,28 @@ const CartTotal = () => {
           <p>{currency + deliver_fee}.00</p>
         </div>
         <hr />
+        {discount > 0 && (
+          <>
+            <div className="flex justify-between text-green-600">
+              <p>Discount</p>
+              <p>
+                -{currency}
+                {discount}
+              </p>
+            </div>
+            <hr />
+          </>
+        )}
         <div className="flex justify-between">
           <p>Total</p>
-          <p>
+          {/* <p>
             {currency}
             {getCartAmount() === 0 ? 0 : getCartAmount() + deliver_fee}
+            .00
+          </p> */}
+          <p>
+            {currency}
+            {total.toFixed(2)}
             .00
           </p>
         </div>
