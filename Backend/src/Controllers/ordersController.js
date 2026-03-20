@@ -219,6 +219,7 @@ const updateorderStatus = async (req, res) => {
 const placeOrderRazorpay = async (req, res) => {
   try {
     let { userId, items, amount, address } = req.body;
+    console.log("AMOUNT RECEIVED:", amount);
     const user = await UserModel.findById(userId);
 
     if (!user) {

@@ -14,6 +14,7 @@ const Profile = () => {
       });
 
       if (response.data.success) {
+        console.log(response.data.user)
         setUser(response.data.user);
       }
     } catch (error) {
@@ -38,6 +39,11 @@ const Profile = () => {
       <h1 className="text-2xl font-bold mb-6 text-center">My Profile</h1>
 
       <div className="space-y-4">
+             <img
+          src={user.profile_img}
+          alt="profile"
+          className="w-14 h-14 rounded-full object-cover"
+        />
         <p>
           <strong>Name:</strong> {user.name}
         </p>

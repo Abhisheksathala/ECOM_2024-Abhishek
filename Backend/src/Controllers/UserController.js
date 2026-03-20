@@ -38,7 +38,7 @@ const RegisterUser = async (req, res) => {
     });
     const user = await NewUser.save();
 
-    const token = CreateToken({ id: user._id }); // Correct structure
+    const token = CreateToken({ id: user._id });
 
     res.status(200).json({
       success: true,

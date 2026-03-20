@@ -10,6 +10,8 @@ import UserRouter from './src/Routes/UserRouter.js';
 import ProductRouter from './src/Routes/ProductRouter.js';
 import CartRouter from './src/Routes/cartRoute.js';
 import OrderRouter from './src/Routes/orderRoute.js';
+import Reviwerouter from './src/Routes/ProductReview.js';
+import addressRoute from './src/Routes/addressRoute.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -26,6 +28,8 @@ app.use('/api/user', UserRouter);
 app.use('/api/product', ProductRouter);
 app.use('/api/cart', CartRouter);
 app.use('/api/order', OrderRouter);
+app.use("/api/review", Reviwerouter);
+app.use("/api/address", addressRoute);
 
 // Root route
 app.get('/', (req, res) => {

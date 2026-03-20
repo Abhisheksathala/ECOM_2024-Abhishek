@@ -3,13 +3,22 @@ import { ShopContext } from "../Context/ShopContext";
 import { useContext, useState, useEffect } from "react";
 import { assets } from "../assets/assets";
 import RelatedProducts from "../Components/RelatedProducts";
+import axios from "axios";
 
 const Product = () => {
+  const { backendURL } = useContext(ShopContext);
+
   const { productId } = useParams();
   const { products, currency, addToCart } = useContext(ShopContext);
   const [productData, setProductData] = useState(null);
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
+
+  const [activeTab, setActiveTab] = useState("description");
+
+  const [reviews, setReviews] = useState([]);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState("");
 
   const fetchProductData = () => {
     const product = products.find((item) => item._id === productId);
@@ -19,9 +28,54 @@ const Product = () => {
     }
   };
 
+  const fetchReviews = async () => {
+    try {
+      const response = await axios.get(`${backendURL}/api/review/${productId}`);
+
+      if (response.data.success) {
+        setReviews(response.data.reviews);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleAddReview = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await axios.post(
+        `${backendURL}/api/review/add`,
+        {
+          productId,
+          comment,
+          rating,
+        },
+        {
+          headers: { token },
+        },
+      );
+
+      if (response.data.success) {
+        setComment("");
+        fetchReviews(); // refresh
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     fetchProductData();
-  }, [productId, products]); // Fetch product data when productId or products change
+    fetchReviews();
+  }, [productId, products]);
+
+  const avgRating =
+    reviews.length > 0
+      ? (
+          reviews.reduce((acc, item) => acc + item.rating, 0) / reviews.length
+        ).toFixed(1)
+      : 0;
 
   if (!productData) {
     return <div>Loading...</div>; // Handle the loading state
@@ -29,11 +83,8 @@ const Product = () => {
 
   return (
     <div className="border-t-2 pt-4 transition-opacity ease-in duration-500 opacity-100">
-      {/* product data */}
       <div className="flex gap-12 sm:gp-12 flex-col sm:flex-row">
-        {/* product image */}
         <div className="flex flex-col sm:flex-row gap-4">
-          {/* <!-- Thumbnail Container --> */}
           <div className="flex-1 flex flex-col overflow-x-auto sm:overflow-y-auto gap-2">
             {productData.image.map((img, index) => (
               <img
@@ -46,23 +97,26 @@ const Product = () => {
             ))}
           </div>
 
-          {/* <!-- Main Image Container --> */}
           <div className="w-full sm:w-[70%]">
             <img src={image} alt="" />
           </div>
         </div>
-        {/* product  info */}
+
         <div className="flex-1">
           <h1 className="font-medium text-2xl mt-2  whitespace-nowrap">
             {productData.name}
           </h1>
           <div className="flex items-center gap-1 mt-2">
-            <img src={assets.star_icon} alt="" />
-            <img src={assets.star_icon} alt="" />
-            <img src={assets.star_icon} alt="" />
-            <img src={assets.star_icon} alt="" />
-            <img src={assets.star_dull_icon} alt="" />
-            {/* <p className="pl-2">(122)</p> */}
+            {[1, 2, 3, 4, 5].map((star) => (
+              <img
+                key={star}
+                src={
+                  star <= avgRating ? assets.star_icon : assets.star_dull_icon
+                }
+                className="w-4"
+              />
+            ))}
+            <p className="text-sm text-gray-500 ml-2">({reviews.length})</p>
           </div>
           <p className="mt-5 text-3xl font-medium">
             {currency}
@@ -102,25 +156,89 @@ const Product = () => {
         </div>
       </div>
 
-      {/* product description  rv section */}
       <div className="mt-20  mb-20">
-        <div className="flex ">
-          <b className="border px-5 py-3  text-sm ">Description</b>
-          {/* <p className="border px-5 py-3 text-sm">revies(122)</p> */}
+        <div className="flex">
+          <button
+            onClick={() => setActiveTab("description")}
+            className={`border px-5 py-3 text-sm ${
+              activeTab === "description" ? "bg-black text-white" : ""
+            }`}
+          >
+            Description
+          </button>
+
+          <button
+            onClick={() => setActiveTab("reviews")}
+            className={`border px-5 py-3 text-sm ${
+              activeTab === "reviews" ? "bg-black text-white" : ""
+            }`}
+          >
+            Reviews
+          </button>
         </div>
-        <div className="flex  flex-col gap-4  border px-6 py-6  text-sm text-gray ">
-          <p>
-            {/* Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod,
-            vitae. */}
-            {productData?.description}
-          </p>
-          {/* <p>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Quod,
-            vitae.
-          </p> */}
-        </div>
+
+        {activeTab === "description" && (
+          <div className="flex flex-col gap-4 border px-6 py-6 text-sm text-gray">
+            <p>{productData?.description}</p>
+          </div>
+        )}
+
+        {activeTab === "reviews" && (
+          <div className="mt-10 border px-6 py-6">
+            <h2 className="text-xl font-semibold mb-4">Reviews</h2>
+
+            <div className="flex gap-1 mb-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <img
+                  key={star}
+                  onClick={() => setRating(star)}
+                  src={
+                    star <= rating ? assets.star_icon : assets.star_dull_icon
+                  }
+                  className="w-5 cursor-pointer"
+                />
+              ))}
+            </div>
+
+            <div className="flex gap-2 mb-6">
+              <input
+                type="text"
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+                placeholder="Write a review..."
+                className="border p-2 flex-1"
+              />
+              <button
+                onClick={handleAddReview}
+                className="bg-black text-white px-4"
+              >
+                Post
+              </button>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              {reviews.map((rev, index) => (
+                <div
+                  key={index}
+                  className="border p-3 rounded flex gap-3 items-start"
+                >
+                  <img
+                    src={rev.userId?.profile_img}
+                    alt="user"
+                    className="w-10 h-10 rounded-full object-cover"
+                  />
+                  <div>
+                    <p className="font-semibold text-sm">
+                      {rev.userId?.name || "User"}
+                    </p>
+                    <p className="text-gray-600 text-sm">{rev.comment}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
-      {/* display  related  products */}
 
       <RelatedProducts
         category={productData.category}

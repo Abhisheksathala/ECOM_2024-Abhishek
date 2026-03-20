@@ -243,13 +243,15 @@
 import Title from "../Components/Title";
 import CartTotal from "../Components/CartTotal";
 import { assets } from "../assets/assets";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { ShopContext } from "../Context/ShopContext";
 import { toast } from "react-toastify";
 import axios from "axios";
 
 const PlaceOrder = () => {
   const [method, setMethod] = useState("cod");
+  const [addresses, setAddresses] = useState([]);
+  const [selectedAddress, setSelectedAddress] = useState(null);
   const {
     navigate,
     backendURL,
@@ -259,6 +261,7 @@ const PlaceOrder = () => {
     getCartAmount,
     delivery_fee,
     products,
+    user,
   } = useContext(ShopContext);
 
   const [formData, setFormData] = useState({
@@ -285,19 +288,14 @@ const PlaceOrder = () => {
         return false;
       }
     }
-
-    // Email validation
     if (!/\S+@\S+\.\S+/.test(formData.email)) {
       toast.error("Please enter a valid email address");
       return false;
     }
-
-    // Phone validation (basic)
     if (!/^\d{10,}$/.test(formData.phone.replace(/\D/g, ""))) {
       toast.error("Please enter a valid phone number");
       return false;
     }
-
     return true;
   };
 
@@ -307,7 +305,11 @@ const PlaceOrder = () => {
     { id: "cod", label: "CASH ON DELIVERY" },
   ];
 
-  let amount = getCartAmount() + delivery_fee;
+  // let amount = getCartAmount() + delivery_fee;
+  const cartAmount = Number(getCartAmount()) || 0;
+  const delivery = Number(delivery_fee) || 10;
+
+  let amount = cartAmount + delivery;
 
   const initpay = (order) => {
     const options = {
@@ -345,25 +347,26 @@ const PlaceOrder = () => {
   const handlePlaceOrder = async (e) => {
     e.preventDefault();
 
-    // Simple form validation
     if (!validateForm()) {
       return;
     }
 
-    // Check if cart is empty
     if (Object.keys(cartItems).length === 0) {
       toast.error("Your cart is empty");
       navigate("/cart");
       return;
     }
 
-    // Check if user is logged in
     if (!token) {
       toast.error("Please login to place order");
       navigate("/login");
       return;
     }
-
+    if (!formData._id) {
+      await axios.post(`${backendURL}/api/address/save`, formData, {
+        headers: { token },
+      });
+    }
     try {
       let orderItems = [];
 
@@ -381,15 +384,18 @@ const PlaceOrder = () => {
           }
         }
       }
-
       console.log(orderItems);
+      if (!user) return toast.error("no user");
 
       let orderData = {
+        userId: user._id,
         address: formData,
         items: orderItems,
         amount: Number(amount),
         paymentMethod: method,
       };
+
+      console.log("AMOUNT SENT:", amount);
 
       if (method === "cod") {
         const response = await axios.post(
@@ -426,7 +432,6 @@ const PlaceOrder = () => {
           orderData,
           { headers: { token } },
         );
-
         if (response.data.success) {
           initpay(response.data.order);
           // const { session_url } = response.data;
@@ -453,9 +458,89 @@ const PlaceOrder = () => {
     }
   };
 
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
+
+    await axios.post(
+      `${backendURL}/api/address/delete`,
+      { addressId: id },
+      { headers: { token } },
+    );
+
+    fetchAddress();
+  };
+
+  const fetchAddress = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(`${backendURL}/api/address/get`, {
+        headers: { token },
+      });
+      console.log(res);
+      if (res.data.success && res.data.addresses) {
+        console.log(res);
+        setAddresses(res.data.addresses);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    fetchAddress();
+  }, []);
+
   return (
     <div className="flex flex-col sm:flex-row justify-between gap-4 pt-5 sm:pt-14 min-h-[80vh]">
-      <form className="flex flex-col gap-4 w-full sm:max-w-[480px]">
+      <form className="flex flex-col gap-4 w-full sm:max-w-[480px] md:max-w-[680px]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 mb-6">
+          {addresses?.map((addr, index) => (
+            <div
+              key={index}
+              onClick={() => {
+                setSelectedAddress(addr);
+                setFormData({
+                  firstName: addr.firstName || "",
+                  lastName: addr.lastName || "",
+                  email: addr.email || "",
+                  street: addr.street || "",
+                  city: addr.city || "",
+                  state: addr.state || "",
+                  zipcode: addr.zipcode || "",
+                  country: addr.country || "",
+                  phone: addr.phone || "",
+                  _id: addr._id,
+                });
+              }}
+              className={`border p-4 cursor-pointer rounded ${
+                selectedAddress?._id === addr._id
+                  ? "border-purple-500 bg-purple-50"
+                  : "border-gray-300"
+              }`}
+            >
+              <p className="font-medium">
+                {addr.firstName} {addr.lastName}
+              </p>
+              <p className="text-sm text-gray-600">
+                {addr.street}, {addr.city}
+              </p>
+              <p className="text-sm text-gray-600">
+                {addr.state}, {addr.country}
+              </p>
+              <p className="text-sm">{addr.phone}</p>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleDelete(addr._id);
+                }}
+                className="text-red-500 text-xs mt-2"
+              >
+                Delete
+              </button>
+            </div>
+          ))}
+        </div>
         <div className="my-3 text-xl sm:text-2xl">
           <Title text1="Order Summary" text2="Shopping cart" />
         </div>

@@ -240,8 +240,8 @@ const SignUp = () => {
         toast.error(response.data.message);
       }
     } catch (err) {
-      toast.error('An error occurred. Please try again later.');
-      console.error('Axios error:', err); // Log Axios error
+      toast.error( err.message || "unexpected error occoured" );
+      console.log('Axios error:', err.message); // Log Axios error
     }
   };
 
