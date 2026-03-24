@@ -329,7 +329,7 @@ const Navbar = () => {
     <div className="flex justify-center w-full px-4 py-4">
       <div
         ref={containerRef}
-        className="overflow-visible"
+        className="overflow-visible "
         style={{ width: "0%", minWidth: "0px" }}
       >
         <div
@@ -421,7 +421,7 @@ const Navbar = () => {
           <Link to={"/"} ref={logoRef} className="flex-shrink-0">
             <img
               src={MADVIRE}
-              className="w-[5rem] h-[5rem] rounded-full object-cover hover:scale-105 transition-transform duration-300 shadow-md"
+              className="w-[3rem] h-[3rem] rounded-full object-cover hover:scale-105 transition-transform duration-300 shadow-md"
               alt="logo"
             />
           </Link>

@@ -172,7 +172,7 @@ const Collection = () => {
             </div>
           </div>
           {/* right div */}
-          <div className="flex-1">
+          <div className="flex-1 mb-4">
             <div className="flex justify-between mb-4 text-base sm:text-2xl">
               <Title
                 text1={"ALL Collections:"}
@@ -189,7 +189,7 @@ const Collection = () => {
               </select>
             </div>
             {/* map product */}
-            <div className="grid gap-4 grid-col md:grid-cols-3 lg:grid-cols-4 gap-y-6">
+            <div className="grid  grid-col grid-cols-2  lg:grid-cols-4 gap-y-6 mx-auto px-4 overflow-hidden w-full h-full">
               {filteredProducts.map((item, index) => {
                 return (
                   <AnimationWarper key={index}>

@@ -246,3 +246,38 @@ html {
 button, a, img {
   transition: all 0.3s ease;
 }
+/* Add to your global CSS file */
+@keyframes scroll-slow {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-scroll-slow {
+  animation: scroll-slow 30s linear infinite;
+}
+
+.animate-scroll-slow:hover {
+  animation-play-state: paused;
+}
+
+/* Optional: Smooth gradient border effect */
+.review-card {
+  position: relative;
+  background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255,255,255,0.18);
+  box-shadow: 0 8px 32px 0 rgba(31,38,135,0.37);
+}
+
+/* For responsive */
+@media (max-width: 768px) {
+  .animate-scroll-slow {
+    animation-duration: 20s;
+  }
+}
+

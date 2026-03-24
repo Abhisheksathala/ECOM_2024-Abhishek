@@ -119,6 +119,7 @@ import { toast } from "react-toastify";
 import { ShopContext } from "../Context/ShopContext";
 import axios from "axios";
 import gsap from "gsap";
+import RotatingImage from "../libs/Roataingimage";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -306,68 +307,82 @@ const SignIn = () => {
         </div>
       </div>
 
-      <div className="relative z-10 w-full max-w-sm p-6 ml-auto mr-20 bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-2xl">
-        <h2 className="mb-6 text-2xl font-semibold text-center">Sign In</h2>
-
-        {error && (
-          <div className="p-2 mb-4 text-red-600 bg-red-100 border border-red-500 rounded">
-            {error}
+      <div className="flex items-center justify-center relative w-full h-full">
+        <div className="absolute -top-32   right-36">
+          <RotatingImage />
+        </div>
+        <div className="relative z-10 w-full max-w-sm p-6 ml-auto mx-auto  sm:mr-20 bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-2xl">
+          <div className="flex justify-center mb-4">
+            <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-lg">
+              <img
+                src="https://tse4.mm.bing.net/th/id/OIP.tzuqB2w0wG66B9dujz3hfAHaHa?pid=Api&P=0&h=180"
+                alt="profile"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
-        )}
+          <h2 className="mb-6 text-2xl font-semibold text-center">Sign In</h2>
 
-        <form onSubmit={handleSignIn}>
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
+          {error && (
+            <div className="p-2 mb-4 text-red-600 bg-red-100 border border-red-500 rounded">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSignIn}>
+            <div className="mb-4">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                placeholder="Enter your email"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                placeholder="Enter your password"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none transition-all duration-300 transform hover:scale-105"
             >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-              placeholder="Enter your email"
-            />
+              Sign In
+            </button>
+          </form>
+
+          <div className="mt-4 text-center">
+            <p className="text-sm">
+              Don't have an account?{" "}
+              <span
+                className="text-blue-500 cursor-pointer hover:underline"
+                onClick={() => navigate("/signup")}
+              >
+                Sign Up
+              </span>
+            </p>
           </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-              placeholder="Enter your password"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none transition-all duration-300 transform hover:scale-105"
-          >
-            Sign In
-          </button>
-        </form>
-
-        <div className="mt-4 text-center">
-          <p className="text-sm">
-            Don't have an account?{" "}
-            <span
-              className="text-blue-500 cursor-pointer hover:underline"
-              onClick={() => navigate("/signup")}
-            >
-              Sign Up
-            </span>
-          </p>
         </div>
       </div>
     </div>

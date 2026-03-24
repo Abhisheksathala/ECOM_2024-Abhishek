@@ -99,22 +99,20 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { Instagram, Facebook, MessageCircle, Mail } from "lucide-react";
-import MADVIRE from "../assets/MADVIRE.jpeg"
+import MADVIRE from "../assets/MADVIRE.jpeg";
 
 const Footer = () => {
-
   const rotateRef = useRef(null);
   const footerRef = useRef(null);
   const iconsRef = useRef([]);
 
   useEffect(() => {
-
     // Footer fade-in animation
     gsap.from(footerRef.current, {
       opacity: 1,
       y: 50,
       duration: 1,
-      ease: "power3.out"
+      ease: "power3.out",
     });
 
     // Infinite rotating circle
@@ -122,7 +120,7 @@ const Footer = () => {
       rotate: 360,
       duration: 20,
       repeat: -1,
-      ease: "linear"
+      ease: "linear",
     });
 
     // Icons entrance animation
@@ -132,33 +130,32 @@ const Footer = () => {
       stagger: 0.15,
       duration: 0.6,
       delay: 0.4,
-      ease: "power2.out"
+      ease: "power2.out",
     });
-
   }, []);
 
   const iconHover = (el) => {
     gsap.to(el, {
       scale: 1.2,
       duration: 0.3,
-      ease: "power2.out"
+      ease: "power2.out",
     });
   };
 
   const iconLeave = (el) => {
     gsap.to(el, {
       scale: 1,
-      duration: 0.3
+      duration: 0.3,
     });
   };
 
   return (
-    <footer ref={footerRef} className="bg-background border-t border-border pt-16 pb-8">
-
+    <footer
+      ref={footerRef}
+      className="bg-background border-t border-border pt-16 pb-8"
+    >
       <div className="container mx-auto px-4">
-
         <div className="grid md:grid-cols-3 gap-12 lg:gap-16">
-
           {/* Left: Policies */}
           <div>
             <h3 className="font-display text-2xl text-foreground mb-6">
@@ -172,7 +169,7 @@ const Footer = () => {
                 "Shipping & Delivery",
                 "Returns & Exchange",
                 "Track Order",
-                "Contact Us"
+                "Contact Us",
               ].map((link) => (
                 <li key={link}>
                   <a
@@ -186,20 +183,15 @@ const Footer = () => {
             </ul>
           </div>
 
-
           {/* Center: Logo */}
 
           <div className="flex flex-col items-center justify-center">
-
             <div className="relative">
-
               <div
                 ref={rotateRef}
                 className="w-32 h-32 rounded-full border border-border flex items-center justify-center"
               >
-
                 <svg viewBox="0 0 200 200" className="w-full h-full absolute">
-
                   <defs>
                     <path
                       id="circlePath"
@@ -215,30 +207,24 @@ const Footer = () => {
                       • Be Mad • Be Bold • Be You •
                     </textPath>
                   </text>
-
                 </svg>
-
               </div>
 
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="font-display text-4xl text-primary">
-                 <img src={MADVIRE} alt="" className="w-12 h-12" />
+                  <img src={MADVIRE} alt="" className="w-12 h-12" />
                 </span>
               </div>
-
             </div>
 
             <p className="font-display text-xl text-foreground mt-4 tracking-wider">
               MADVIRA MAN
             </p>
-
           </div>
-
 
           {/* Right: Links + Social */}
 
           <div>
-
             <h3 className="font-display text-2xl text-foreground mb-6">
               QUICK LINKS
             </h3>
@@ -256,13 +242,10 @@ const Footer = () => {
               ))}
             </ul>
 
-
             {/* Social icons */}
 
             <div className="flex gap-4 mb-8">
-
               {[MessageCircle, Facebook, Instagram].map((Icon, i) => (
-
                 <a
                   key={i}
                   href="#"
@@ -273,21 +256,16 @@ const Footer = () => {
                 >
                   <Icon size={18} />
                 </a>
-
               ))}
-
             </div>
-
 
             <p className="text-muted-foreground text-xs mb-4">
               24/7 Customer Support: +91 98765 43210
             </p>
 
-
             {/* Email Subscribe */}
 
             <div className="flex rounded-lg overflow-hidden border border-border">
-
               <input
                 type="email"
                 placeholder="Enter your email"
@@ -297,24 +275,16 @@ const Footer = () => {
               <button className="px-4 bg-primary text-primary-foreground">
                 <Mail size={18} />
               </button>
-
             </div>
-
           </div>
-
         </div>
 
-
         <div className="border-t border-border mt-12 pt-8 text-center">
-
           <p className="text-muted-foreground text-xs">
             © 2026 Madvira Man. All rights reserved. Be Mad. Be Bold. Be You.
           </p>
-
         </div>
-
       </div>
-
     </footer>
   );
 };

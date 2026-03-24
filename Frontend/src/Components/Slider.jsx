@@ -1,74 +1,10 @@
-// // Import Swiper React components
-// import { Swiper, SwiperSlide } from "swiper/react";
-
-// // Import Swiper styles
-// import "swiper/css";
-// import "swiper/css/effect-coverflow";
-// import "swiper/css/pagination";
-
-// // import required modules
-// import { EffectCoverflow, Pagination } from "swiper/modules";
-
-// export default function Slider() {
-//   return (
-//     <>
-//       <Swiper
-//         effect={"coverflow"}
-//         grabCursor={true}
-//         centeredSlides={true}
-//         slidesPerView={2}
-//         coverflowEffect={{
-//           rotate: 50,
-//           stretch: 30,
-//           depth: 100,
-//           modifier: 1,
-//           slideShadows: true,
-//         }}
-//         pagination={false}
-//         modules={[EffectCoverflow, Pagination]}
-//         className="mySwiper"
-//       >
-//         <SwiperSlide>
-//           <img src="https://plus.unsplash.com/premium_photo-1673125287084-e90996bad505?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xvdGhlc3xlbnwwfHwwfHx8MA%3D%3D" />
-//         </SwiperSlide>
-//         <SwiperSlide>
-//           <img src="https://plus.unsplash.com/premium_photo-1673125287084-e90996bad505?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xvdGhlc3xlbnwwfHwwfHx8MA%3D%3D" />
-//         </SwiperSlide>
-//         <SwiperSlide>
-//           <img src="https://plus.unsplash.com/premium_photo-1673125287084-e90996bad505?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xvdGhlc3xlbnwwfHwwfHx8MA%3D%3D" />
-//         </SwiperSlide>
-//         <SwiperSlide>
-//           <img src="https://plus.unsplash.com/premium_photo-1673125287084-e90996bad505?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xvdGhlc3xlbnwwfHwwfHx8MA%3D%3D" />
-//         </SwiperSlide>
-//         <SwiperSlide>
-//           <img src="https://plus.unsplash.com/premium_photo-1673125287084-e90996bad505?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xvdGhlc3xlbnwwfHwwfHx8MA%3D%3D" />
-//         </SwiperSlide>
-//         <SwiperSlide>
-//           <img src="https://plus.unsplash.com/premium_photo-1673125287084-e90996bad505?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xvdGhlc3xlbnwwfHwwfHx8MA%3D%3D" />
-//         </SwiperSlide>
-//         <SwiperSlide>
-//           <img src="https://plus.unsplash.com/premium_photo-1673125287084-e90996bad505?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xvdGhlc3xlbnwwfHwwfHx8MA%3D%3D" />
-//         </SwiperSlide>
-//         <SwiperSlide>
-//           <img src="https://plus.unsplash.com/premium_photo-1673125287084-e90996bad505?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xvdGhlc3xlbnwwfHwwfHx8MA%3D%3D" />
-//         </SwiperSlide>
-//         <SwiperSlide>
-//           <img src="https://plus.unsplash.com/premium_photo-1673125287084-e90996bad505?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8Y2xvdGhlc3xlbnwwfHwwfHx8MA%3D%3D" />
-//         </SwiperSlide>
-//       </Swiper>
-//     </>
-//   );
-// }
-
 import { useContext, useEffect, useState } from "react";
 import { ShopContext } from "../Context/ShopContext";
-
-// Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/effect-coverflow";
-
 import { EffectCoverflow } from "swiper/modules";
+import { Link } from "react-router-dom";
 
 export default function Slider() {
   const { products } = useContext(ShopContext);
@@ -77,6 +13,8 @@ export default function Slider() {
   useEffect(() => {
     setLatestproducts(products.slice(0, 10));
   }, [products]);
+
+  console.log("produc:", products);
 
   return (
     <Swiper
@@ -93,15 +31,41 @@ export default function Slider() {
         slideShadows: true,
       }}
       modules={[EffectCoverflow]}
+      breakpoints={{
+        0: {
+          slidesPerView: 1,
+        },
+        640: {
+          slidesPerView: 1.5,
+        },
+        768: {
+          slidesPerView: 2,
+        },
+        1024: {
+          slidesPerView: 2.5,
+        },
+      }}
       className="mySwiper"
     >
       {latestproducts.map((item, index) => (
         <SwiperSlide key={index}>
-          <img
-            src={item.image[0]} // if array → use [0]
-            alt={item.name}
-            className="w-full h-[300px] object-cover rounded-xl"
-          />
+          <Link
+            to={`/Product/${item._id}`}
+            className="block h-full flex flex-col relative group"
+          >
+            <img
+              src={item.image[0]}
+              alt={item.name}
+              className="w-full h-[300px] object-cover rounded-xl"
+            />
+            <div className="absolute top-3 right-3 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-semibold backdrop-blur-md">
+              ₹{item.price}
+            </div>
+
+            <div className="absolute bottom-0 left-0 w-full p-3 bg-gradient-to-t from-black/80 to-transparent rounded-b-xl opacity-0 group-hover:opacity-100 transition">
+              <p className="text-white text-sm font-medium">{item.name}</p>
+            </div>
+          </Link>
         </SwiperSlide>
       ))}
     </Swiper>

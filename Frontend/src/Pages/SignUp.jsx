@@ -137,19 +137,19 @@
 
 // export default SignUp;
 
-
-import { useState, useContext, useEffect, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { ShopContext } from '../Context/ShopContext';
-import axios from 'axios';
-import gsap from 'gsap';
+import { useState, useContext, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { ShopContext } from "../Context/ShopContext";
+import axios from "axios";
+import gsap from "gsap";
+import RotatingImage from "../libs/Roataingimage";
 
 const SignUp = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const { setToken, backendURL } = useContext(ShopContext);
   const navigate = useNavigate();
 
@@ -158,7 +158,7 @@ const SignUp = () => {
   const circleRef = useRef(null);
   const triangleRef = useRef(null);
   const squareRef = useRef(null);
-  
+
   // Refs for eyes inside shapes
   const circleLeftEyeRef = useRef(null);
   const circleRightEyeRef = useRef(null);
@@ -175,20 +175,30 @@ const SignUp = () => {
       const containerRect = containerRef.current.getBoundingClientRect();
 
       // Move eyes for each shape
-      [circleLeftEyeRef, circleRightEyeRef, triangleLeftEyeRef, triangleRightEyeRef, squareLeftEyeRef, squareRightEyeRef].forEach((eyeRef) => {
+      [
+        circleLeftEyeRef,
+        circleRightEyeRef,
+        triangleLeftEyeRef,
+        triangleRightEyeRef,
+        squareLeftEyeRef,
+        squareRightEyeRef,
+      ].forEach((eyeRef) => {
         if (eyeRef.current) {
           const eyeRect = eyeRef.current.getBoundingClientRect();
           const eyeCenterX = eyeRect.left + eyeRect.width / 2;
           const eyeCenterY = eyeRect.top + eyeRect.height / 2;
-          
+
           // Calculate direction from eye to mouse
           const deltaX = clientX - eyeCenterX;
           const deltaY = clientY - eyeCenterY;
-          
+
           // Limit movement range (max 6px in any direction)
-          const distance = Math.min(6, Math.sqrt(deltaX * deltaX + deltaY * deltaY) * 0.2);
+          const distance = Math.min(
+            6,
+            Math.sqrt(deltaX * deltaX + deltaY * deltaY) * 0.2,
+          );
           const angle = Math.atan2(deltaY, deltaX);
-          
+
           const moveX = Math.cos(angle) * distance;
           const moveY = Math.sin(angle) * distance;
 
@@ -196,33 +206,33 @@ const SignUp = () => {
             x: moveX,
             y: moveY,
             duration: 0.2,
-            ease: "power2.out"
+            ease: "power2.out",
           });
         }
       });
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove);
 
     return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener("mousemove", handleMouseMove);
     };
   }, []);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
-    setError('');
+    setError("");
 
     if (!name || !email || !password) {
-      setError('Please fill in all fields.');
+      setError("Please fill in all fields.");
       return;
     }
 
     try {
-      console.log('Sending data:', { name, email, password }); // Log request data for debugging
+      console.log("Sending data:", { name, email, password }); // Log request data for debugging
 
       const response = await axios.post(
-        'http://localhost:4000/api/user/register',
+        "http://localhost:4000/api/user/register",
         {
           name,
           email,
@@ -231,17 +241,17 @@ const SignUp = () => {
       );
 
       if (response.data.success) {
-        toast.success('Sign Up successful!');
+        toast.success("Sign Up successful!");
         setToken(response.data.token);
-        localStorage.setItem('token', response.data.token);
-        navigate('/');
+        localStorage.setItem("token", response.data.token);
+        navigate("/");
       } else {
         setError(response.data.message);
         toast.error(response.data.message);
       }
     } catch (err) {
-      toast.error( err.message || "unexpected error occoured" );
-      console.log('Axios error:', err.message); // Log Axios error
+      toast.error(err.message || "unexpected error occoured");
+      console.log("Axios error:", err.message); // Log Axios error
     }
   };
 
@@ -281,12 +291,15 @@ const SignUp = () => {
           <div
             className="w-0 h-0"
             style={{
-              borderLeft: '60px solid transparent',
-              borderRight: '60px solid transparent',
-              borderBottom: '104px solid #60A5FA',
+              borderLeft: "60px solid transparent",
+              borderRight: "60px solid transparent",
+              borderBottom: "104px solid #60A5FA",
             }}
           >
-            <div className="relative flex justify-center space-x-4 ml-6" style={{ top: '40px', left: '-30px' }}>
+            <div
+              className="relative flex justify-center space-x-4 ml-6"
+              style={{ top: "40px", left: "-30px" }}
+            >
               <div
                 ref={triangleLeftEyeRef}
                 className="w-4 h-4 bg-white rounded-full flex items-center justify-center"
@@ -326,85 +339,100 @@ const SignUp = () => {
       </div>
 
       {/* Sign Up Form - Right side */}
-      <div className="relative z-10 w-full max-w-sm p-6 ml-auto mr-20 bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-2xl">
-        <h2 className="mb-6 text-2xl font-semibold text-center">Sign Up</h2>
+      <div className="flex items-center justify-center relative w-full h-full">
+        <div className="absolute -top-32   right-36">
+          <RotatingImage />
+        </div>
 
-        {error && (
-          <div className="p-2 mb-4 text-red-600 bg-red-100 border border-red-500 rounded">
-            {error}
+        <div className="relative z-10 w-full max-w-sm p-6 ml-auto mx-auto  sm:mr-20 bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-2xl">
+          <div className="flex justify-center mb-4">
+            <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-lg">
+              <img
+                src="https://tse4.mm.bing.net/th/id/OIP.tzuqB2w0wG66B9dujz3hfAHaHa?pid=Api&P=0&h=180"
+                alt="profile"
+                className="w-full h-full object-cover"
+              />
+            </div>
           </div>
-        )}
+          <h2 className="mb-6 text-2xl font-semibold text-center">Sign Up</h2>
 
-        <form onSubmit={handleSignUp}>
-          <div className="mb-4">
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
+          {error && (
+            <div className="p-2 mb-4 text-red-600 bg-red-100 border border-red-500 rounded">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSignUp}>
+            <div className="mb-4">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Name
+              </label>
+              <input
+                type="text"
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                placeholder="Enter your name"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Email
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                placeholder="Enter your email"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Password
+              </label>
+              <input
+                type="password"
+                id="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
+                placeholder="Enter your password"
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="w-full py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none transition-all duration-300 transform hover:scale-105"
             >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-              placeholder="Enter your name"
-            />
+              Sign Up
+            </button>
+          </form>
+
+          <div className="mt-4 text-center">
+            <p className="text-sm">
+              Already have an account?{" "}
+              <span
+                className="text-blue-500 cursor-pointer hover:underline"
+                onClick={() => navigate("/login")}
+              >
+                Sign In
+              </span>
+            </p>
           </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-              placeholder="Enter your email"
-            />
-          </div>
-
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-sm font-medium text-gray-700"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full p-2 mt-1 border border-gray-300 rounded focus:outline-none focus:border-blue-500"
-              placeholder="Enter your password"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full py-2 text-white bg-blue-600 rounded-lg hover:bg-blue-700 focus:outline-none transition-all duration-300 transform hover:scale-105"
-          >
-            Sign Up
-          </button>
-        </form>
-
-        <div className="mt-4 text-center">
-          <p className="text-sm">
-            Already have an account?{' '}
-            <span
-              className="text-blue-500 cursor-pointer hover:underline"
-              onClick={() => navigate('/login')}
-            >
-              Sign In
-            </span>
-          </p>
         </div>
       </div>
     </div>
