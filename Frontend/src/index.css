@@ -219,3 +219,30 @@ html {
   opacity: 1;
   background: #007aff;
 }
+
+
+/* Add to your global CSS file */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out;
+}
+
+/* Optional: Add smooth scroll behavior */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Optional: Add transition for all interactive elements */
+button, a, img {
+  transition: all 0.3s ease;
+}
