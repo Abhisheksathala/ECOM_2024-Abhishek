@@ -7,6 +7,8 @@ import ProductInfintScroll from "../Components/Animations/ProductScroll";
 import Slider from "../Components/Slider";
 import { motion } from "framer-motion";
 import ScrollingGallery from "../Components/ui/ScrollingGallery";
+import ProofOfWork from "../../ui/components/ProofOfWork";
+import InfiniteScrollText from "../Components/ui/InfiniteScrollText";
 // import TextLoaderDemo from "../Components/Animations/TextLoader";
 
 const InfinityText = () => {
@@ -81,6 +83,81 @@ const Home = () => {
     // Add as many images as you want
   ];
 
+  const works = [
+  { 
+    image: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=600&h=600&fit=crop', 
+    imageAlt: 'Gorilla in the jungle', 
+    title: 'Gori', 
+    subtitle: 'Jungle Sage' 
+  },
+  { 
+     image: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=600&h=600&fit=crop', 
+    imageAlt: 'Crocodile in water', 
+    title: 'Snap', 
+    subtitle: 'Swamp King' 
+  },
+  { 
+     image: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=600&h=600&fit=crop', 
+    imageAlt: 'Crow on branch', 
+    title: 'Crowley', 
+    subtitle: 'Night Watcher' 
+  },
+  { 
+    image: 'https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=600&h=600&fit=crop', 
+    imageAlt: 'Red fox in forest', 
+    title: 'Foxy', 
+    subtitle: 'Forest Trickster' 
+  },
+  { 
+    image: 'https://images.unsplash.com/photo-1561736778-92e52a7769ef?w=600&h=600&fit=crop', 
+    imageAlt: 'Snake coiled', 
+    title: 'Slither', 
+    subtitle: 'Desert Whisper' 
+  },
+  { 
+    image: 'https://images.unsplash.com/photo-1579656592043-a20e25a4aa4b?w=600&h=600&fit=crop', 
+    imageAlt: 'Brown bear in forest', 
+    title: 'Bruno', 
+    subtitle: 'Mountain Guardian' 
+  },
+  { 
+    image: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=600&h=600&fit=crop', 
+    imageAlt: 'Owl perched', 
+    title: 'Hoot', 
+    subtitle: 'Wise Watcher' 
+  },
+  { 
+    image: 'https://images.unsplash.com/photo-1561736778-92e52a7769ef?w=600&h=600&fit=crop', 
+    imageAlt: 'Crocodile resting', 
+    title: 'Chompy', 
+    subtitle: 'River Sentinel' 
+  },
+  { 
+    image: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=600&h=600&fit=crop', 
+    imageAlt: 'Tiger in grass', 
+    title: 'Rajah', 
+    subtitle: 'Jungle Emperor' 
+  },
+  { 
+    image: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=600&h=600&fit=crop', 
+    imageAlt: 'English bulldog', 
+    title: 'Tank', 
+    subtitle: 'Street Enforcer' 
+  },
+  { 
+    image: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=600&h=600&fit=crop', 
+    imageAlt: 'Red panda on branch', 
+    title: 'Rusty', 
+    subtitle: 'Smooth Operator' 
+  },
+  { 
+    image: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=600&h=600&fit=crop', 
+    imageAlt: 'Tiger walking', 
+    title: 'Blaze', 
+    subtitle: 'Street King' 
+  },
+];
+
   return (
     <div>
       {/* <TextLoaderDemo /> */}
@@ -89,11 +166,13 @@ const Home = () => {
       <ProductInfintScroll />
       <LatestCollection />
       <Bestseller />
-      {galleryImages.length > 0 && (
+      <InfiniteScrollText />
+     <ProofOfWork title="The Crew" works={works} />
+      {/* {galleryImages.length > 0 && (
         <ScrollingGallery images={galleryImages} id="product-gallery" />
-      )}
+      )} */}
       <OurPolicy />
-      <InfinityText />
+      {/* <InfinityText /> */}
       {/* <Newsletter /> */}
       {/* review setion man  */}
       <div className="py-20 ">

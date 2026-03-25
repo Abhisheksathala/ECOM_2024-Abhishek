@@ -273,7 +273,7 @@ const Navbar = () => {
       .to(
         containerRef.current,
         {
-          width: "70%",
+          width: "90%",
           opacity: 1,
           duration: 1.2,
           ease: "power2.inOut",
