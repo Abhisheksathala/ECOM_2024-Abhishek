@@ -18,10 +18,54 @@ const ShopContextProvider = (props) => {
   const [products, setProducts] = useState([]);
   const [token, setToken] = useState("");
   const [discount, setDiscount] = useState(0);
+  const [wishlist, setWishlist] = useState([]);
 
   const backendURL = "http://localhost:4000";
 
   const navigate = useNavigate();
+
+  const getWishlist = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.get(`${backendURL}/api/wishlist/getwishlist/`, {
+        headers: {
+          token,
+        },
+      });
+
+      if (res.data.success) {
+        setWishlist(res.data.wishlist);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addToWishlist = async (productId) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await axios.post(
+        `${backendURL}/api/wishlist/addtowishlist`,
+        { productId },
+        {
+          headers: {
+            token,
+          },
+        },
+      );
+
+      if (res.data.success) {
+        toast.success("Added to wishlist ❤️");
+      } else {
+        toast.error(res.data.message);
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error adding wishlist");
+    }
+  };
 
   const addToCart = async (itemId, size) => {
     if (!size) {
@@ -205,6 +249,10 @@ const ShopContextProvider = (props) => {
     setUser,
     discount,
     setDiscount,
+    addToWishlist,
+    wishlist,
+    setWishlist,
+    getWishlist
   };
 
   return (

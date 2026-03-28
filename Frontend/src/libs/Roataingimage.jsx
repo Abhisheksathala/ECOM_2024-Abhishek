@@ -5,12 +5,12 @@ const RotatingImage = () => {
   const containerRef = useRef(null);
 
   const images = [
-    "https://images.unsplash.com/photo-1521335629791-ce4aec67dd53",
-    "https://images.unsplash.com/photo-1490481651871-ab68de25d43d",
-    "https://images.unsplash.com/photo-1512436991641-6745cdb1723f",
-    "https://images.unsplash.com/photo-1520975916090-3105956dac38",
-    "https://images.unsplash.com/photo-1542060748-10c28b62716f",
-    "https://images.unsplash.com/photo-1483985988355-763728e1935b",
+    "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+    "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
   ];
 
   const radius = 190;
@@ -37,7 +37,7 @@ const RotatingImage = () => {
             <img
               key={i}
               src={img}
-              className="w-32 h-32 rounded-full object-cover absolute"
+              className="w-32 h-32  object-cover absolute"
               style={{
                 top: "50%",
                 left: "50%",

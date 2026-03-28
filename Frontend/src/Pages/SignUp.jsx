@@ -144,6 +144,7 @@ import { ShopContext } from "../Context/ShopContext";
 import axios from "axios";
 import gsap from "gsap";
 import RotatingImage from "../libs/Roataingimage";
+import OAuth from "../Components/OAuth";
 
 const SignUp = () => {
   const [name, setName] = useState("");
@@ -420,6 +421,9 @@ const SignUp = () => {
             >
               Sign Up
             </button>
+            <div className="flex items-center justify-center">
+              <OAuth />
+            </div>
           </form>
 
           <div className="mt-4 text-center">

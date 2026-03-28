@@ -9,6 +9,12 @@ import { motion } from "framer-motion";
 import ScrollingGallery from "../Components/ui/ScrollingGallery";
 import ProofOfWork from "../../ui/components/ProofOfWork";
 import InfiniteScrollText from "../Components/ui/InfiniteScrollText";
+import Wishlist from "./Wishlist";
+import SwipeableCards from "../Components/Animations/SwiapableCard";
+import { useState } from "react";
+import { useContext } from "react";
+import { ShopContext } from "../Context/ShopContext";
+import { useEffect } from "react";
 // import TextLoaderDemo from "../Components/Animations/TextLoader";
 
 const InfinityText = () => {
@@ -52,6 +58,13 @@ const InfinityText = () => {
 };
 
 const Home = () => {
+  const { products } = useContext(ShopContext);
+  const [latestproducts, setLatestproducts] = useState([]);
+
+  useEffect(() => {
+    setLatestproducts(products.slice(0, 10));
+  }, [products]);
+
   const reviews = [
     { name: "Rahul", text: "Amazing quality bro 🔥", rating: 5 },
     { name: "Priya", text: "Loved the design 😍", rating: 4 },
@@ -59,115 +72,136 @@ const Home = () => {
     { name: "Sneha", text: "Super comfy clothes 👌", rating: 4 },
   ];
 
-  const galleryImages = [
-    {
-      src: "https://ui.dimaac.com/_next/image?url=%2Fgori.png&w=640&q=75", // or your image URL
-      alt: "Product 1",
-      speed: 0.8, // optional: controls scroll speed for each image
-    },
-    {
-      src: "https://ui.dimaac.com/_next/image?url=%2Fgori.png&w=640&q=75",
-      alt: "Product 2",
-      speed: 1.2,
-    },
-    {
-      src: "https://ui.dimaac.com/_next/image?url=%2Fgori.png&w=640&q=75",
-      alt: "Product 3",
-      speed: 0.6,
-    },
-    {
-      src: "https://ui.dimaac.com/_next/image?url=%2Fgori.png&w=640&q=75",
-      alt: "Product 4",
-      speed: 1.5,
-    },
-    // Add as many images as you want
-  ];
+  // const galleryImages = [
+  //   {
+  //     src: "https://ui.dimaac.com/_next/image?url=%2Fgori.png&w=640&q=75", // or your image URL
+  //     alt: "Product 1",
+  //     speed: 0.8, // optional: controls scroll speed for each image
+  //   },
+  //   {
+  //     src: "https://ui.dimaac.com/_next/image?url=%2Fgori.png&w=640&q=75",
+  //     alt: "Product 2",
+  //     speed: 1.2,
+  //   },
+  //   {
+  //     src: "https://ui.dimaac.com/_next/image?url=%2Fgori.png&w=640&q=75",
+  //     alt: "Product 3",
+  //     speed: 0.6,
+  //   },
+  //   {
+  //     src: "https://ui.dimaac.com/_next/image?url=%2Fgori.png&w=640&q=75",
+  //     alt: "Product 4",
+  //     speed: 1.5,
+  //   },
+  //   // Add as many images as you want
+  // ];
 
   const works = [
-  { 
-    image: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=600&h=600&fit=crop', 
-    imageAlt: 'Gorilla in the jungle', 
-    title: 'Gori', 
-    subtitle: 'Jungle Sage' 
-  },
-  { 
-     image: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=600&h=600&fit=crop', 
-    imageAlt: 'Crocodile in water', 
-    title: 'Snap', 
-    subtitle: 'Swamp King' 
-  },
-  { 
-     image: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=600&h=600&fit=crop', 
-    imageAlt: 'Crow on branch', 
-    title: 'Crowley', 
-    subtitle: 'Night Watcher' 
-  },
-  { 
-    image: 'https://images.unsplash.com/photo-1474511320723-9a56873867b5?w=600&h=600&fit=crop', 
-    imageAlt: 'Red fox in forest', 
-    title: 'Foxy', 
-    subtitle: 'Forest Trickster' 
-  },
-  { 
-    image: 'https://images.unsplash.com/photo-1561736778-92e52a7769ef?w=600&h=600&fit=crop', 
-    imageAlt: 'Snake coiled', 
-    title: 'Slither', 
-    subtitle: 'Desert Whisper' 
-  },
-  { 
-    image: 'https://images.unsplash.com/photo-1579656592043-a20e25a4aa4b?w=600&h=600&fit=crop', 
-    imageAlt: 'Brown bear in forest', 
-    title: 'Bruno', 
-    subtitle: 'Mountain Guardian' 
-  },
-  { 
-    image: 'https://images.unsplash.com/photo-1552728089-57bdde30beb3?w=600&h=600&fit=crop', 
-    imageAlt: 'Owl perched', 
-    title: 'Hoot', 
-    subtitle: 'Wise Watcher' 
-  },
-  { 
-    image: 'https://images.unsplash.com/photo-1561736778-92e52a7769ef?w=600&h=600&fit=crop', 
-    imageAlt: 'Crocodile resting', 
-    title: 'Chompy', 
-    subtitle: 'River Sentinel' 
-  },
-  { 
-    image: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=600&h=600&fit=crop', 
-    imageAlt: 'Tiger in grass', 
-    title: 'Rajah', 
-    subtitle: 'Jungle Emperor' 
-  },
-  { 
-    image: 'https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=600&h=600&fit=crop', 
-    imageAlt: 'English bulldog', 
-    title: 'Tank', 
-    subtitle: 'Street Enforcer' 
-  },
-  { 
-    image: 'https://images.unsplash.com/photo-1540573133985-87b6da6d54a9?w=600&h=600&fit=crop', 
-    imageAlt: 'Red panda on branch', 
-    title: 'Rusty', 
-    subtitle: 'Smooth Operator' 
-  },
-  { 
-    image: 'https://images.unsplash.com/photo-1561731216-c3a4d99437d5?w=600&h=600&fit=crop', 
-    imageAlt: 'Tiger walking', 
-    title: 'Blaze', 
-    subtitle: 'Street King' 
-  },
-];
+    {
+      image:
+        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+      imageAlt: "Acoustic felt wall panels in geometric design",
+      title: "Acoustic Felt",
+      subtitle: "Sound Absorbing Panels",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=600&fit=crop",
+      imageAlt: "Fabric wrapped acoustic panels",
+      title: "Fabric Wraps",
+      subtitle: "Elegant Sound Control",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+      imageAlt: "Textured acoustic wall covering",
+      title: "Textured Weave",
+      subtitle: "Natural Acoustics",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop",
+      imageAlt: "Suspended acoustic baffles",
+      title: "Baffle System",
+      subtitle: "Ceiling Solutions",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+      imageAlt: "Hexagonal acoustic tiles",
+      title: "Hexagon Tiles",
+      subtitle: "Modular Design",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+      imageAlt: "Wood wool acoustic panels",
+      title: "Wood Wool",
+      subtitle: "Eco-Friendly Sound",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1618354691438-25bc04584c23?w=600&h=600&fit=crop",
+      imageAlt: "Perforated acoustic wood panels",
+      title: "Perforated Wood",
+      subtitle: "Natural Elegance",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=600&h=600&fit=crop",
+      imageAlt: "Felt acoustic panels in various colors",
+      title: "Color Felt",
+      subtitle: "Vibrant Acoustics",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=600&fit=crop",
+      imageAlt: "3D acoustic wall panels",
+      title: "3D Texture",
+      subtitle: "Sculptural Sound",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+      imageAlt: "PET acoustic panels",
+      title: "PET Felt",
+      subtitle: "Recycled Sound",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=600&fit=crop",
+      imageAlt: "Acoustic ceiling clouds",
+      title: "Cloud Panels",
+      subtitle: "Floating Acoustics",
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+      imageAlt: "Custom acoustic fabric installation",
+      title: "Custom Design",
+      subtitle: "Tailored Solutions",
+    },
+  ];
 
   return (
     <div>
       {/* <TextLoaderDemo /> */}
       {/* <Hero /> */}
-      <Slider />
+      {/* <Slider /> */}
+      <div className="mx-auto  flex flex-1 items-center justify-between lg:ml-64">
+        <SwipeableCards
+          images={latestproducts}
+          loop={true}
+          spaceBetween={40}
+          className="my-10 "
+        />
+      </div>
       <ProductInfintScroll />
       <LatestCollection />
       <Bestseller />
-      <InfiniteScrollText />
-     <ProofOfWork title="The Crew" works={works} />
+      <InfiniteScrollText Text={"MADVIRA MAN • "} />
+      <ProofOfWork title="The Crew" works={works} />
+      <InfiniteScrollText Text={"17% SLAE • "} />
       {/* {galleryImages.length > 0 && (
         <ScrollingGallery images={galleryImages} id="product-gallery" />
       )} */}

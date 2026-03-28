@@ -120,6 +120,7 @@ import { ShopContext } from "../Context/ShopContext";
 import axios from "axios";
 import gsap from "gsap";
 import RotatingImage from "../libs/Roataingimage";
+import OAuth from "../Components/OAuth";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
@@ -307,10 +308,10 @@ const SignIn = () => {
         </div>
       </div>
 
+      <div className="">
+        <RotatingImage />
+      </div>
       <div className="flex items-center justify-center relative w-full h-full">
-        <div className="absolute -top-32   right-36">
-          <RotatingImage />
-        </div>
         <div className="relative z-10 w-full max-w-sm p-6 ml-auto mx-auto  sm:mr-20 bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-2xl">
           <div className="flex justify-center mb-4">
             <div className="w-20 h-20 rounded-full overflow-hidden border-4 border-white shadow-lg">
@@ -370,6 +371,9 @@ const SignIn = () => {
             >
               Sign In
             </button>
+            <div className="flex items-center justify-center">
+              <OAuth />
+            </div>
           </form>
 
           <div className="mt-4 text-center">

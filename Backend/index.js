@@ -13,6 +13,7 @@ import OrderRouter from './src/Routes/orderRoute.js';
 import Reviwerouter from './src/Routes/ProductReview.js';
 import addressRoute from './src/Routes/addressRoute.js';
 import CouponRoute from './src/Routes/CouponRoute.js';
+import wishlistRouter from './src/Routes/wishlistRoute.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -32,6 +33,7 @@ app.use('/api/order', OrderRouter);
 app.use("/api/review", Reviwerouter);
 app.use("/api/address", addressRoute);
 app.use("/api/coupon", CouponRoute);
+app.use("/api/wishlist", wishlistRouter);
 
 // Root route
 app.get('/', (req, res) => {

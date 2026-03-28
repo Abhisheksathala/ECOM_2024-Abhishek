@@ -49,6 +49,7 @@ import { lazy, Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Newsletter from "./Components/Newsletter";
+import Wishlist from "./Pages/Wishlist";
 
 const About = lazy(() => import("./Pages/About"));
 const Cart = lazy(() => import("./Pages/Cart"));
@@ -76,10 +77,10 @@ const App = () => {
       <Suspense fallback={<p>Loading...</p>}>
         <Navbar />
         <SearchBar />
-
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/orders" element={<Orders />} />
+          <Route path="/Wishlist" element={<Wishlist />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/collection" element={<Collection />} />
@@ -91,7 +92,6 @@ const App = () => {
           <Route path="/verify" element={<Verify />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
-
         <Footer />
         <Newsletter />
       </Suspense>

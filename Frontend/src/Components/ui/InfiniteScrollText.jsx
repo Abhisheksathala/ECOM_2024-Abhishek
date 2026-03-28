@@ -4,7 +4,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const InfiniteScrollText = () => {
+const InfiniteScrollText = ({ Text }) => {
   const containerRef = useRef(null);
   const textRef = useRef(null);
 
@@ -50,12 +50,12 @@ const InfiniteScrollText = () => {
           ref={textRef}
           className="inline-block text-6xl md:text-8xl font-bold uppercase tracking-wider"
         >
-          <span className="text-white">MADVIRA MAN • </span>
-          <span className="text-orange-500">MADVIRA MAN • </span>
-          <span className="text-white">MADVIRA MAN • </span>
-          <span className="text-orange-500">MADVIRA MAN • </span>
-          <span className="text-white">MADVIRA MAN • </span>
-          <span className="text-orange-500">MADVIRA MAN • </span>
+          <span className="text-white">{Text} </span>
+          <span className="text-orange-500">{Text}</span>
+          <span className="text-white">{Text}</span>
+          <span className="text-orange-500">{Text}</span>
+          <span className="text-white">{Text}</span>
+          <span className="text-orange-500">{Text}</span>
         </div>
       </div>
     </div>

@@ -458,6 +458,12 @@ const Navbar = () => {
                     </p>
                     <p
                       className="cursor-pointer hover:text-black transition-colors duration-200"
+                      onClick={() => navigate("/Wishlist")}
+                    >
+                      Wishlist
+                    </p>
+                    <p
+                      className="cursor-pointer hover:text-black transition-colors duration-200"
                       onClick={logout}
                     >
                       Logout
