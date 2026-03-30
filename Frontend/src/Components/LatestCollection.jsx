@@ -40,6 +40,7 @@ const LatestCollection = () => {
               name={item.name}
               price={item.price}
               image={item.image}
+              size={item.sizes}
             />
           );
         })}

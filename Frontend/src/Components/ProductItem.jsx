@@ -217,10 +217,16 @@
 import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
+import { Bookmark } from "lucide-react";
+import { useEffect } from "react";
 
-const ProductItem = ({ id, name, price, image }) => {
+const ProductItem = ({ id, name, price, image, size = [] }) => {
   const { currency, addToWishlist } = useContext(ShopContext);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  useEffect(() => {
+    console.log(size, "sizes");
+  }, []);
 
   const images = Array.isArray(image) ? image : [image];
 
@@ -233,7 +239,7 @@ const ProductItem = ({ id, name, price, image }) => {
       <div className="product-content product-type4">
         {/* Thumbnail with hover slider */}
         <div className="thumbnail-wrapper with-gallery">
-          <div className="product-buttons style-2">
+          {/* <div className="product-buttons style-2">
             <button
               onClick={(e) => {
                 e.preventDefault();
@@ -244,7 +250,21 @@ const ProductItem = ({ id, name, price, image }) => {
             >
               Add to Wishlist<i className="klbth-icon-shopping-bag-ft"></i>
             </button>
-          </div>
+          </div> */}
+
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              addToWishlist(id);
+            }}
+            className={`absolute top-3 right-8 z-10 rounded-full p-2 shadow-md transition-all duration-200  ${"bg-blue-500 hover:bg-red-600"}`}
+            aria-label="Add to wishlist relative"
+          >
+            <Bookmark
+              className={`h-5 w-5 transition-colors ${"text-white fill-white"}`}
+            />
+          </button>
 
           <Link to={`/Product/${id}`} className="product-images">
             {/* Hover slider toggle panes */}
@@ -265,7 +285,15 @@ const ProductItem = ({ id, name, price, image }) => {
             <img src={images[currentImageIndex]} alt={name} />
           </Link>
         </div>
-
+        {/* Indicator dots below price - straight lines side by side with grayish color */}
+        <div className="product-indicators">
+          {images.map((_, idx) => (
+            <div
+              key={idx}
+              className={`product-indicator-dot ${currentImageIndex === idx ? "active" : ""}`}
+            />
+          ))}
+        </div>
         {/* Content wrapper */}
         <div className="content-wrapper">
           <h3 className="product-title">
@@ -286,16 +314,20 @@ const ProductItem = ({ id, name, price, image }) => {
               </span>
             </ins>
           </span>
-        </div>
-
-        {/* Indicator dots below price - straight lines side by side with grayish color */}
-        <div className="product-indicators">
-          {images.map((_, idx) => (
-            <div
-              key={idx}
-              className={`product-indicator-dot ${currentImageIndex === idx ? "active" : ""}`}
-            />
-          ))}
+          <div className="flex justify-between items-center">
+            {size && size.length > 0 && (
+              <div className="flex gap-2 mt-2 flex-wrap">
+                {size.map((item, idx) => (
+                  <span
+                    key={idx}
+                    className="text-xs text-gray-500 border border-gray-300 px-2 py-1 rounded"
+                  >
+                    {item}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </li>
