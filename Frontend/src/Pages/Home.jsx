@@ -15,6 +15,7 @@ import { useState } from "react";
 import { useContext } from "react";
 import { ShopContext } from "../Context/ShopContext";
 import { useEffect } from "react";
+import Collection from "./Collection";
 // import TextLoaderDemo from "../Components/Animations/TextLoader";
 
 const InfinityText = () => {
@@ -309,6 +310,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      <Collection />
     </div>
   );
 };

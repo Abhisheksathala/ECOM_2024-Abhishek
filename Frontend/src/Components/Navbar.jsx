@@ -326,7 +326,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="flex justify-center w-full px-4 py-4">
+    <div className="flex justify-center w-full px-4 py-4 ">
       <div
         ref={containerRef}
         className="overflow-visible "
@@ -334,7 +334,7 @@ const Navbar = () => {
       >
         <div
           ref={navbarRef}
-          className="flex items-center justify-between px-8 py-3 font-medium rounded-full backdrop-blur-sm bg-black/50 border border-white/30 shadow-lg"
+          className="flex items-center justify-between px-8 py-3 font-medium rounded-full backdrop-blur-sm bg-black/10 border border-white/30 shadow-lg backdrop:blur-sm "
           style={{ opacity: 0 }}
         >
           <ul
@@ -418,12 +418,13 @@ const Navbar = () => {
             </NavLink>
           </ul>
 
-          <Link to={"/"} ref={logoRef} className="flex-shrink-0">
+          <Link to={"/"} ref={logoRef} className="flex-shrink-0 felx items-center justify-center">
             <img
               src={MADVIRE}
               className="w-[3rem] h-[3rem] rounded-full object-cover hover:scale-105 transition-transform duration-300 shadow-md"
               alt="logo"
             />
+            <div className="-ml-4">MADVIRE</div>
           </Link>
 
           <div ref={rightIconsRef} className="flex items-center gap-5">

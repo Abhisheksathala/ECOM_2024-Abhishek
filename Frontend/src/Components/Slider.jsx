@@ -56,7 +56,7 @@ export default function Slider() {
             <img
               src={item.image[0]}
               alt={item.name}
-              className="w-full h-[300px] object-cover rounded-xl"
+              className="w-full h-full object-cover rounded-xl"
             />
             <div className="absolute top-3 right-3 bg-black/70 text-white px-3 py-1 rounded-full text-sm font-semibold backdrop-blur-md">
               ₹{item.price}

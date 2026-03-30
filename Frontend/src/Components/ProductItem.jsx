@@ -164,14 +164,6 @@ const ProductItem = ({ id, name, price, image }) => {
               ))}
             </div>
           )}
-
-          {/* Quick View Button */}
-          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-center justify-center">
-            <button className="bg-white text-gray-900 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-sm sm:text-base font-medium transform translate-y-4 group-hover:translate-y-0 transition-all duration-500 hover:bg-gray-900 hover:text-white shadow-xl">
-              Quick View
-            </button>
-          </div>
-
           {/* Wishlist Button */}
           <button
             onClick={(e) => {
@@ -213,9 +205,6 @@ const ProductItem = ({ id, name, price, image }) => {
               {currency}
               {price + 500}
             </p>
-            <span className="text-[10px] sm:text-xs font-semibold text-green-600 bg-green-50 px-1.5 sm:px-2 py-0.5 rounded-full">
-              17% OFF
-            </span>
           </div>
         </div>
       </Link>
@@ -224,3 +213,5 @@ const ProductItem = ({ id, name, price, image }) => {
 };
 
 export default ProductItem;
+
+
