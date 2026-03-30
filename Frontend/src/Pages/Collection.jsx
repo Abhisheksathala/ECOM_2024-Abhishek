@@ -4,6 +4,7 @@ import { assets } from "./../assets/assets";
 import Title from "./../Components/Title";
 import ProductItem from "./../Components/ProductItem";
 import AnimationWarper from "../Components/Animations/AnimationWrapper";
+import { useLocation } from "react-router-dom";
 
 const Collection = () => {
   const { search, showSearch } = useContext(ShopContext);
@@ -80,7 +81,7 @@ const Collection = () => {
     sortProduct();
   }, [sortType]);
   // filteredProducts removed it from top man
-
+  const location = useLocation();
   return (
     <div className="flex flex-col gap-1 pt-10 border-t sm:flex-row sm:gap-0">
       {!products ? (
@@ -174,19 +175,20 @@ const Collection = () => {
           {/* right div */}
           <div className="flex-1 mb-4">
             <div className="flex justify-between mb-4 text-base sm:text-2xl">
-              <Title
-                text1={"ALL Collections:"}
-                text2={products.length > 0 ? products.length : 0}
-              />
-              {/* sort */}
-              <select
-                className="px-2 text-sm border border-gray-300"
-                onChange={(e) => setSortType(e.target.value)}
-              >
-                <option value="relevant">relevant</option>
-                <option value="low-high">low-high</option>
-                <option value="high-low">high-low</option>
-              </select>
+              {location.name === "/collection" ? (
+                <>
+                  <Title text1="ALL Collections:" text2={products.length} />
+                  {/* sort */}
+                  <select
+                    className="px-2 text-sm border border-gray-300"
+                    onChange={(e) => setSortType(e.target.value)}
+                  >
+                    <option value="relevant">relevant</option>
+                    <option value="low-high">low-high</option>
+                    <option value="high-low">high-low</option>
+                  </select>
+                </>
+              ) :      <Title text1="ALL Collections:" />}
             </div>
             {/* map product */}
             <div className="grid  grid-col grid-cols-2  lg:grid-cols-4 gap-y-6 mx-auto px-4 overflow-hidden w-full h-full">

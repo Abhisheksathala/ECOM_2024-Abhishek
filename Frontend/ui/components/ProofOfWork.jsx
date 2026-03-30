@@ -116,12 +116,12 @@ const ProofOfWork = ({ title = "My Works", works, className }) => {
     <div
       ref={containerRef}
       className={cn(
-        "w-full bg-[#0B0B0F] px-6 py-20 text-white md:px-12 md:py-20",
+        "w-full bg-[#0B0B0F] px-6 py-20 text-black md:px-12 md:py-20",
         className,
       )}
     >
       <div className="mx-auto max-w-[1200px]">
-        <h1 className="mb-16 text-center text-3xl font-normal md:text-5xl">
+        <h1 className="mb-16 text-center text-3xl font-normal md:text-5xl text-black">
           {title}
         </h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">

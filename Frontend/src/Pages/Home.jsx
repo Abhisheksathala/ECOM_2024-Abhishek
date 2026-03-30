@@ -17,6 +17,7 @@ import { ShopContext } from "../Context/ShopContext";
 import { useEffect } from "react";
 import Collection from "./Collection";
 // import TextLoaderDemo from "../Components/Animations/TextLoader";
+import productImage from "../assets/shirt.jpeg";
 
 const InfinityText = () => {
   return (
@@ -73,111 +74,75 @@ const Home = () => {
     { name: "Sneha", text: "Super comfy clothes 👌", rating: 4 },
   ];
 
-  // const galleryImages = [
-  //   {
-  //     src: "https://ui.dimaac.com/_next/image?url=%2Fgori.png&w=640&q=75", // or your image URL
-  //     alt: "Product 1",
-  //     speed: 0.8, // optional: controls scroll speed for each image
-  //   },
-  //   {
-  //     src: "https://ui.dimaac.com/_next/image?url=%2Fgori.png&w=640&q=75",
-  //     alt: "Product 2",
-  //     speed: 1.2,
-  //   },
-  //   {
-  //     src: "https://ui.dimaac.com/_next/image?url=%2Fgori.png&w=640&q=75",
-  //     alt: "Product 3",
-  //     speed: 0.6,
-  //   },
-  //   {
-  //     src: "https://ui.dimaac.com/_next/image?url=%2Fgori.png&w=640&q=75",
-  //     alt: "Product 4",
-  //     speed: 1.5,
-  //   },
-  //   // Add as many images as you want
-  // ];
-
   const works = [
     {
-      image:
-        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+      image: productImage,
       imageAlt: "Acoustic felt wall panels in geometric design",
       title: "Acoustic Felt",
       subtitle: "Sound Absorbing Panels",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=600&fit=crop",
+      image: productImage,
       imageAlt: "Fabric wrapped acoustic panels",
       title: "Fabric Wraps",
       subtitle: "Elegant Sound Control",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+      image: productImage,
       imageAlt: "Textured acoustic wall covering",
       title: "Textured Weave",
       subtitle: "Natural Acoustics",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=600&h=600&fit=crop",
+      image: productImage,
       imageAlt: "Suspended acoustic baffles",
       title: "Baffle System",
       subtitle: "Ceiling Solutions",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+      image: productImage,
       imageAlt: "Hexagonal acoustic tiles",
       title: "Hexagon Tiles",
       subtitle: "Modular Design",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+      image: productImage,
       imageAlt: "Wood wool acoustic panels",
       title: "Wood Wool",
       subtitle: "Eco-Friendly Sound",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1618354691438-25bc04584c23?w=600&h=600&fit=crop",
+      image: productImage,
       imageAlt: "Perforated acoustic wood panels",
       title: "Perforated Wood",
       subtitle: "Natural Elegance",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=600&h=600&fit=crop",
+      image: productImage,
       imageAlt: "Felt acoustic panels in various colors",
       title: "Color Felt",
       subtitle: "Vibrant Acoustics",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=600&fit=crop",
+      image: productImage,
       imageAlt: "3D acoustic wall panels",
       title: "3D Texture",
       subtitle: "Sculptural Sound",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+      image: productImage,
       imageAlt: "PET acoustic panels",
       title: "PET Felt",
       subtitle: "Recycled Sound",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=600&h=600&fit=crop",
+      image: productImage,
       imageAlt: "Acoustic ceiling clouds",
       title: "Cloud Panels",
       subtitle: "Floating Acoustics",
     },
     {
-      image:
-        "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?w=600&h=600&fit=crop",
+      image: productImage,
       imageAlt: "Custom acoustic fabric installation",
       title: "Custom Design",
       subtitle: "Tailored Solutions",
@@ -310,6 +275,7 @@ const Home = () => {
           </div>
         </div>
       </div>
+      {/*  */}
       <Collection />
     </div>
   );
