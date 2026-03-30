@@ -78,7 +78,8 @@ const SwipeableCards = ({
               slidesPerView: 1,
             },
           }}
-          className="w-full h-[320px] sm:h-[360px] md:h-[400px] lg:h-[440px] xl:h-[480px]"
+          // INCREASED HEIGHTS FOR DESKTOP
+          className="w-full h-[400px] sm:h-[450px] md:h-[500px] lg:h-[550px] xl:h-[600px] 2xl:h-[650px]"
         >
           {images.map((item, index) => (
             <SwiperSlide key={index} className="h-full">
@@ -119,5 +120,4 @@ const SwipeableCards = ({
     </div>
   );
 };
-
 export default SwipeableCards;

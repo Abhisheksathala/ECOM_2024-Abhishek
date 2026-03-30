@@ -66,152 +66,240 @@
 
 // export default ProductItem;
 
-import { useContext, useState, useEffect } from "react";
+// import { useContext, useState, useEffect } from "react";
+// import { Link } from "react-router-dom";
+// import { ShopContext } from "../Context/ShopContext";
+
+// const ProductItem = ({ id, name, price, image }) => {
+//   const { currency, addToWishlist } = useContext(ShopContext);
+//   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+//   const [isHovering, setIsHovering] = useState(false);
+//   const [zoomStyle, setZoomStyle] = useState({});
+
+//   // Create an array of images (if you have multiple images in your product)
+//   // For now, using the same image but you can modify this if you have multiple images
+//   const images = Array.isArray(image) ? image : [image];
+
+//   // Auto-slide images on hover
+//   useEffect(() => {
+//     let interval;
+//     if (isHovering && images.length > 1) {
+//       interval = setInterval(() => {
+//         setCurrentImageIndex((prev) => (prev + 1) % images.length);
+//       }, 800);
+//     }
+//     return () => {
+//       if (interval) clearInterval(interval);
+//     };
+//   }, [isHovering, images.length]);
+
+//   // Reset to first image when hover ends
+//   useEffect(() => {
+//     if (!isHovering) {
+//       setCurrentImageIndex(0);
+//     }
+//   }, [isHovering]);
+
+//   const handleMouseMove = (e) => {
+//     const { left, top, width, height } =
+//       e.currentTarget.getBoundingClientRect();
+
+//     const x = ((e.clientX - left) / width) * 100;
+//     const y = ((e.clientY - top) / height) * 100;
+
+//     setZoomStyle({
+//       transformOrigin: `${x}% ${y}%`,
+//       transform: "scale(2)", // zoom level
+//     });
+//   };
+
+//   const handleMouseLeaveZoom = () => {
+//     setZoomStyle({
+//       transform: "scale(1)",
+//       transformOrigin: "center",
+//     });
+//   };
+
+//   return (
+//     <div
+//       className=" overflow-hidden  hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 sm:hover:-translate-y-2 group relative h-full flex flex-col"
+//       onMouseEnter={() => setIsHovering(true)}
+//       onMouseLeave={() => setIsHovering(false)}
+//     >
+//       <Link to={`/Product/${id}`} className="block h-full flex flex-col">
+//         <div className="overflow-hidden relative flex-shrink-0">
+//           <div
+//             className="flex transition-transform duration-700 ease-out"
+//             style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
+//           >
+//             {images.map((img, idx) => (
+//               <div key={idx} className="w-full flex-shrink-0">
+//                 <img
+//                   onMouseMove={handleMouseMove}
+//                   onMouseLeave={handleMouseLeaveZoom}
+//                   src={img}
+//                   className="w-full object-cover transition-all duration-700 group-hover:scale-110"
+//                   alt={name}
+//                   style={{ height: "auto" }}
+//                 />
+//               </div>
+//             ))}
+//           </div>
+
+//           {images.length > 1 && isHovering && (
+//             <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1.5 sm:gap-2">
+//               {images.map((_, idx) => (
+//                 <div
+//                   key={idx}
+//                   className={`h-1 sm:h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
+//                     currentImageIndex === idx
+//                       ? " w-4 sm:w-6 shadow-lg"
+//                       : "bg-white/50 w-1 sm:w-1.5 hover:bg-white/80"
+//                   }`}
+//                   onClick={(e) => {
+//                     e.preventDefault();
+//                     setCurrentImageIndex(idx);
+//                   }}
+//                 />
+//               ))}
+//             </div>
+//           )}
+//           {/* Wishlist Button */}
+//           <button
+//             onClick={(e) => {
+//               e.preventDefault();
+//               e.stopPropagation();
+//               addToWishlist(id);
+//             }}
+//             className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-white/90 backdrop-blur-sm p-1.5 sm:p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-2 sm:translate-x-4 group-hover:translate-x-0 hover:bg-white shadow-lg"
+//           >
+//             <svg
+//               className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 hover:text-red-500 transition-colors"
+//               fill="none"
+//               stroke="currentColor"
+//               viewBox="0 0 24 24"
+//             >
+//               <path
+//                 strokeLinecap="round"
+//                 strokeLinejoin="round"
+//                 strokeWidth="2"
+//                 d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
+//               />
+//             </svg>
+//           </button>
+//         </div>
+
+//         <div className="p-3 sm:p-4 md:p-5 flex-grow flex flex-col">
+//           {/* Product Title */}
+//           <h3 className="text-sm sm:text-base md:text-lg font-semibold mb-1 sm:mb-2 text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2 sm:line-clamp-1">
+//             {name}
+//           </h3>
+
+//           {/* Price */}
+//           <div className="flex flex-wrap items-baseline gap-1 sm:gap-2 mb-2 sm:mb-3">
+//             <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">
+//               {currency}
+//               {price}
+//             </p>
+//             <p className="text-xs sm:text-sm text-gray-400 line-through">
+//               {currency}
+//               {price + 500}
+//             </p>
+//           </div>
+//         </div>
+//       </Link>
+//     </div>
+//   );
+// };
+
+// export default ProductItem;
+
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { ShopContext } from "../Context/ShopContext";
 
 const ProductItem = ({ id, name, price, image }) => {
   const { currency, addToWishlist } = useContext(ShopContext);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [isHovering, setIsHovering] = useState(false);
-  const [zoomStyle, setZoomStyle] = useState({});
 
-  // Create an array of images (if you have multiple images in your product)
-  // For now, using the same image but you can modify this if you have multiple images
   const images = Array.isArray(image) ? image : [image];
 
-  // Auto-slide images on hover
-  useEffect(() => {
-    let interval;
-    if (isHovering && images.length > 1) {
-      interval = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % images.length);
-      }, 800);
-    }
-    return () => {
-      if (interval) clearInterval(interval);
-    };
-  }, [isHovering, images.length]);
-
-  // Reset to first image when hover ends
-  useEffect(() => {
-    if (!isHovering) {
-      setCurrentImageIndex(0);
-    }
-  }, [isHovering]);
-
-  const handleMouseMove = (e) => {
-    const { left, top, width, height } =
-      e.currentTarget.getBoundingClientRect();
-
-    const x = ((e.clientX - left) / width) * 100;
-    const y = ((e.clientY - top) / height) * 100;
-
-    setZoomStyle({
-      transformOrigin: `${x}% ${y}%`,
-      transform: "scale(2)", // zoom level
-    });
-  };
-
-  const handleMouseLeaveZoom = () => {
-    setZoomStyle({
-      transform: "scale(1)",
-      transformOrigin: "center",
-    });
+  const handlePaneHover = (index) => {
+    setCurrentImageIndex(index);
   };
 
   return (
-    <div
-      className=" overflow-hidden  hover:shadow-2xl transition-all duration-500 hover:-translate-y-1 sm:hover:-translate-y-2 group relative h-full flex flex-col"
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
-    >
-      <Link to={`/Product/${id}`} className="block h-full flex flex-col">
-        <div className="overflow-hidden relative flex-shrink-0">
-          <div
-            className="flex transition-transform duration-700 ease-out"
-            style={{ transform: `translateX(-${currentImageIndex * 100}%)` }}
-          >
-            {images.map((img, idx) => (
-              <div key={idx} className="w-full flex-shrink-0">
-                <img
-                  onMouseMove={handleMouseMove}
-                  onMouseLeave={handleMouseLeaveZoom}
-                  src={img}
-                  className="w-full object-cover transition-all duration-700 group-hover:scale-110"
-                  alt={name}
-                  style={{ height: "auto" }}
-                />
-              </div>
-            ))}
+    <li className="product type-product">
+      <div className="product-content product-type4">
+        {/* Thumbnail with hover slider */}
+        <div className="thumbnail-wrapper with-gallery">
+          <div className="product-buttons style-2">
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                addToWishlist(id);
+              }}
+              className="button product_type_variable add_to_cart_button"
+            >
+              Add to Wishlist<i className="klbth-icon-shopping-bag-ft"></i>
+            </button>
           </div>
 
-          {images.length > 1 && isHovering && (
-            <div className="absolute bottom-2 sm:bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1.5 sm:gap-2">
+          <Link to={`/Product/${id}`} className="product-images">
+            {/* Hover slider toggle panes */}
+            <div
+              className="hover-slider-images-toggler"
+              style={{ position: "absolute", inset: "0px", display: "flex" }}
+            >
               {images.map((_, idx) => (
                 <div
                   key={idx}
-                  className={`h-1 sm:h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
-                    currentImageIndex === idx
-                      ? " w-4 sm:w-6 shadow-lg"
-                      : "bg-white/50 w-1 sm:w-1.5 hover:bg-white/80"
-                  }`}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setCurrentImageIndex(idx);
-                  }}
+                  className="hover-slider-toggle-pane"
+                  style={{ flexGrow: 1 }}
+                  onMouseEnter={() => handlePaneHover(idx)}
                 />
               ))}
             </div>
-          )}
-          {/* Wishlist Button */}
-          <button
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              addToWishlist(id);
-            }}
-            className="absolute top-2 sm:top-4 right-2 sm:right-4 bg-white/90 backdrop-blur-sm p-1.5 sm:p-2.5 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-x-2 sm:translate-x-4 group-hover:translate-x-0 hover:bg-white shadow-lg"
-          >
-            <svg
-              className="w-4 h-4 sm:w-5 sm:h-5 text-gray-700 hover:text-red-500 transition-colors"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"
-              />
-            </svg>
-          </button>
+
+            <img src={images[currentImageIndex]} alt={name} />
+          </Link>
         </div>
 
-        <div className="p-3 sm:p-4 md:p-5 flex-grow flex flex-col">
-          {/* Product Title */}
-          <h3 className="text-sm sm:text-base md:text-lg font-semibold mb-1 sm:mb-2 text-gray-800 group-hover:text-blue-600 transition-colors duration-300 line-clamp-2 sm:line-clamp-1">
-            {name}
+        {/* Content wrapper */}
+        <div className="content-wrapper">
+          <h3 className="product-title">
+            <Link to={`/Product/${id}`}>{name}</Link>
           </h3>
 
-          {/* Price */}
-          <div className="flex flex-wrap items-baseline gap-1 sm:gap-2 mb-2 sm:mb-3">
-            <p className="text-lg sm:text-xl md:text-2xl font-bold text-gray-800">
-              {currency}
-              {price}
-            </p>
-            <p className="text-xs sm:text-sm text-gray-400 line-through">
-              {currency}
-              {price + 500}
-            </p>
-          </div>
+          <span className="price">
+            <del>
+              <span className="amount">
+                {currency}
+                {price + 500}
+              </span>
+            </del>
+            <ins>
+              <span className="amount">
+                {currency}
+                {price}
+              </span>
+            </ins>
+          </span>
         </div>
-      </Link>
-    </div>
+
+        {/* Indicator dots below price - straight lines side by side with grayish color */}
+        <div className="product-indicators">
+          {images.map((_, idx) => (
+            <div
+              key={idx}
+              className={`product-indicator-dot ${currentImageIndex === idx ? "active" : ""}`}
+            />
+          ))}
+        </div>
+      </div>
+    </li>
   );
 };
 
 export default ProductItem;
-
-

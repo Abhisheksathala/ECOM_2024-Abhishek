@@ -199,7 +199,7 @@ const Home = () => {
       </div>
       <ProductInfintScroll />
       <LatestCollection />
-      <Bestseller />
+      {/* <Bestseller /> */}
       <InfiniteScrollText Text={"MADVIRA MAN • "} />
       <ProofOfWork title="The Crew" works={works} />
       <InfiniteScrollText Text={"17% SLAE • "} />
