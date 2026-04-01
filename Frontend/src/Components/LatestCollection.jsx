@@ -24,7 +24,7 @@ const LatestCollection = () => {
         </p>
       </div>
       {/* rendering products */}
-      <div className="grid grid-cols-2 sm:grid-col-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
+      <div className="grid grid-cols-2 sm:grid-col-3 md:grid-cols-4 gap-4">
         {latestproducts.map((item, index) => {
           return (
             // <ProductItemsRounded

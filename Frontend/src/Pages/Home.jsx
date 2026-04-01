@@ -18,6 +18,8 @@ import { useEffect } from "react";
 import Collection from "./Collection";
 // import TextLoaderDemo from "../Components/Animations/TextLoader";
 import productImage from "../assets/shirt.jpeg";
+import VideoSection from "../Components/reels/VideoSection";
+import USPSection from "../Components/USPSection/USPSection";
 
 const InfinityText = () => {
   return (
@@ -149,8 +151,53 @@ const Home = () => {
     },
   ];
 
+  const videos = [
+    {
+      id: 1,
+      video: "/videos/shoe.mp4",
+      name: "Cool Shoes",
+      price: 999,
+    },
+    {
+      id: 2,
+      video: "/videos/tshirt.mp4",
+      name: "Tshirt",
+      price: 499,
+    },
+    {
+      id: 2,
+      video: "/videos/tshirt.mp4",
+      name: "Tshirt",
+      price: 499,
+    },
+    {
+      id: 2,
+      video: "/videos/tshirt.mp4",
+      name: "Tshirt",
+      price: 499,
+    },
+    {
+      id: 2,
+      video: "/videos/tshirt.mp4",
+      name: "Tshirt",
+      price: 499,
+    },
+    {
+      id: 2,
+      video: "/videos/tshirt.mp4",
+      name: "Tshirt",
+      price: 499,
+    },
+    {
+      id: 2,
+      video: "/videos/tshirt.mp4",
+      name: "Tshirt",
+      price: 499,
+    },
+  ];
+
   return (
-    <div>
+    <div className="overflow-hidden">
       {/* <TextLoaderDemo /> */}
       {/* <Hero /> */}
       {/* <Slider /> */}
@@ -277,6 +324,9 @@ const Home = () => {
       </div>
       {/*  */}
       <Collection />
+
+      <USPSection />
+      <VideoSection videos={videos} />
     </div>
   );
 };
