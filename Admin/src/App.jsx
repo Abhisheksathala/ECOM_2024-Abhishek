@@ -11,12 +11,15 @@ import "react-toastify/dist/ReactToastify.css";
 import Edit from "./pages/Edit";
 import Dashboard from "./pages/Dashboard";
 import AddCoupon from "./pages/AddCouponCode";
+import AddVideo from "./pages/AddVideo";
+import ListVideos from "./pages/ListVideos";
+import BlogManagement from "./pages/BlogManagement ";
 
 export const BackendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const App = () => {
   const [token, setToken] = useState(
-    localStorage.getItem("token") ? localStorage.getItem("token") : ""
+    localStorage.getItem("token") ? localStorage.getItem("token") : "",
   );
 
   useEffect(() => {
@@ -40,8 +43,20 @@ const App = () => {
                 <Route path="/list" element={<List token={token} />} />
                 <Route path="/orders" element={<Orders token={token} />} />
                 <Route path="/edit/:id" element={<Edit token={token} />} />
-                <Route path="/dashboard" element={<Dashboard token={token} />} />
-                <Route path="/add-coupon" element={<AddCoupon token={token} />} />
+                <Route
+                  path="/dashboard"
+                  element={<Dashboard token={token} />}
+                />
+                <Route
+                  path="/add-coupon"
+                  element={<AddCoupon token={token} />}
+                />
+                <Route path="/add-video" element={<AddVideo token={token} />} />
+                <Route
+                  path="/list-videos"
+                  element={<ListVideos token={token} />}
+                />
+                <Route path="/blog" element={<BlogManagement token={token} />} />
               </Routes>
             </div>
           </div>

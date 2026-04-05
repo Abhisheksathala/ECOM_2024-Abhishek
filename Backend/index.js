@@ -14,6 +14,8 @@ import Reviwerouter from './src/Routes/ProductReview.js';
 import addressRoute from './src/Routes/addressRoute.js';
 import CouponRoute from './src/Routes/CouponRoute.js';
 import wishlistRouter from './src/Routes/wishlistRoute.js';
+import Videorouter from './src/Routes/videoRoute.js';
+import blogrouter from './src/Routes/blogRoutes.js';
 
 const app = express();
 const PORT = process.env.PORT || 4000;
@@ -21,6 +23,7 @@ const PORT = process.env.PORT || 4000;
 // Middlewares
 app.use(express.json());
 app.use(cors());
+app.use(express.urlencoded({ extended: true }));
 
 // Initialize Cloudinary before starting the server
 connectCloudinary();
@@ -34,6 +37,8 @@ app.use("/api/review", Reviwerouter);
 app.use("/api/address", addressRoute);
 app.use("/api/coupon", CouponRoute);
 app.use("/api/wishlist", wishlistRouter);
+app.use("/api/video", Videorouter);
+app.use("/api/blog", blogrouter);
 
 // Root route
 app.get('/', (req, res) => {

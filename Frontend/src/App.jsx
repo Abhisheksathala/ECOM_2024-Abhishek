@@ -50,6 +50,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Newsletter from "./Components/Newsletter";
 import Wishlist from "./Pages/Wishlist";
+import BlogDetail from "./Pages/BlogDetail";
 
 const About = lazy(() => import("./Pages/About"));
 const Cart = lazy(() => import("./Pages/Cart"));
@@ -92,6 +93,7 @@ const App = () => {
           <Route path="/contact" element={<Contact />} />
           <Route path="/verify" element={<Verify />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/blog/:id" element={<BlogDetail />} />
         </Routes>
         <Footer />
         <Newsletter />

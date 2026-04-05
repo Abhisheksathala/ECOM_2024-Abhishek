@@ -5,6 +5,7 @@ import { assets } from "../assets/assets";
 import RelatedProducts from "../Components/RelatedProducts";
 import axios from "axios";
 import { toast } from "react-toastify";
+import BlogSlider from "../Components/Blog";
 
 const Product = () => {
   const { backendURL } = useContext(ShopContext);
@@ -319,7 +320,7 @@ const Product = () => {
               </div>
             </div>
           </div>
-          
+
           <div className="mt-20  mb-20">
             <div className="flex">
               <button
@@ -409,6 +410,9 @@ const Product = () => {
           </div>
         </div>
       </div>
+
+      {/* Blog Section - Static */}
+      <BlogSlider />
 
       <RelatedProducts
         category={productData.category}

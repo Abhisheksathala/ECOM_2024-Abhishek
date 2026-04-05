@@ -196,6 +196,8 @@ const Home = () => {
     },
   ];
 
+   
+
   return (
     <div className="overflow-hidden">
       {/* <TextLoaderDemo /> */}
@@ -326,7 +328,7 @@ const Home = () => {
       <Collection />
 
       <USPSection />
-      <VideoSection videos={videos} />
+      <VideoSection  />
     </div>
   );
 };

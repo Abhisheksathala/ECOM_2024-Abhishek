@@ -425,3 +425,14 @@ button, a, img {
 .product-indicator-dot:hover {
   background-color: #9ca3af;
 }
+
+
+/* Add to your global CSS file */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
